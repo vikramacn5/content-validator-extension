@@ -10,7 +10,7 @@ popupDiv.style.cssText = `
   width: 0px;
   background-color: #222;
   z-index: 1000;
-  border-radius: 50%;
+  border-radius: 100px;
   overflow: hidden;
   transition: height 0.7s ease, width 0.7s ease, border-radius 0.7s ease;
 `;
@@ -78,11 +78,11 @@ const switchPopup = function (shouldOpen) {
       btnsWrapper.style.opacity = 1;
       textArea.style.visibility = "visible";
       textArea.style.opacity = 1;
-    }, 0);
+    }, 10);
   } else {
     popupDiv.style.width = "0px";
     popupDiv.style.height = "0px";
-    popupDiv.style.borderRadius = "50%";
+    popupDiv.style.borderRadius = "100px";
     btnsWrapper.style.visibility = "hidden";
     btnsWrapper.style.opacity = "0";
     textArea.style.visibility = "hidden";
