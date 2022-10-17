@@ -66,10 +66,16 @@ btnsWrapper.appendChild(checkBtn);
 
 popupDiv.insertAdjacentElement("beforeend", btnsWrapper);
 
+let closeTimeout;
 const switchPopup = function (shouldOpen) {
+  // editBtn.textContent = isEditMode ? "Exit full screen" : "Edit in full screen";
+
   const body = document.querySelector("body");
   if (shouldOpen) {
-    shouldOpen && body.appendChild(popupDiv);
+    !document.querySelector(".extn-cv-popup") &&
+      shouldOpen &&
+      body.appendChild(popupDiv);
+    closeTimeout && clearTimeout(closeTimeout);
     setTimeout(() => {
       popupDiv.style.width = isEditMode ? "96%" : "350px";
       popupDiv.style.height = isEditMode ? "96%" : "300px";
@@ -78,7 +84,7 @@ const switchPopup = function (shouldOpen) {
       btnsWrapper.style.opacity = 1;
       textArea.style.visibility = "visible";
       textArea.style.opacity = 1;
-    }, 10);
+    }, 100);
   } else {
     popupDiv.style.width = "0px";
     popupDiv.style.height = "0px";
@@ -87,13 +93,14 @@ const switchPopup = function (shouldOpen) {
     btnsWrapper.style.opacity = "0";
     textArea.style.visibility = "hidden";
     textArea.style.opacity = 0;
-    setTimeout(() => {
+    closeTimeout = setTimeout(() => {
       !shouldOpen && body.removeChild(popupDiv);
     }, 700);
   }
 };
 
 const goEditMode = function (popup, editModeState) {
+  editBtn.textContent = isEditMode ? "Exit full screen" : "Edit in full screen";
   popup.style.width = editModeState ? "96%" : "350px";
   popup.style.height = editModeState ? "96%" : "300px";
 };
