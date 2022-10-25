@@ -9,7 +9,9 @@ const editClickHandler = function () {
 };
 
 const checkClickHandler = function () {
-  console.log(document.querySelector(".extn-cv-textarea").value);
+  const content = document.querySelector(".extn-cv-textarea").value;
+  console.log(content);
+  mainFunctionalityInit(content);
 };
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {

@@ -12,7 +12,7 @@ popupDiv.style.cssText = `
   z-index: 1000;
   border-radius: 100px;
   overflow: hidden;
-  transition: height 0.7s ease, width 0.7s ease, border-radius 0.7s ease;
+  transition: height 0.6s ease, width 0.6s ease, border-radius 0.6s ease;
 `;
 
 const textArea = document.createElement("textarea");
@@ -30,7 +30,7 @@ textArea.style.cssText = `
   padding-right: 8px;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 2s ease;
+  transition: opacity .2s ease;
 `;
 
 const textAreaWrapper = document.createElement("div");
@@ -58,7 +58,7 @@ btnsWrapper.style.cssText = `
   border-top: 1px solid #006401;
   visibility: hidden;
   opacity:0;
-  transition: opacity 2s ease;
+  transition: opacity .2s ease;
 `;
 
 btnsWrapper.appendChild(editBtn);
@@ -80,11 +80,18 @@ const switchPopup = function (shouldOpen) {
       popupDiv.style.width = isEditMode ? "96%" : "350px";
       popupDiv.style.height = isEditMode ? "96%" : "300px";
       popupDiv.style.borderRadius = "10px";
+      // btnsWrapper.style.visibility = "visible";
+      // btnsWrapper.style.opacity = 1;
+      // textArea.style.visibility = "visible";
+      // textArea.style.opacity = 1;
+    }, 100);
+
+    setTimeout(() => {
       btnsWrapper.style.visibility = "visible";
       btnsWrapper.style.opacity = 1;
       textArea.style.visibility = "visible";
       textArea.style.opacity = 1;
-    }, 100);
+    }, 500);
   } else {
     popupDiv.style.width = "0px";
     popupDiv.style.height = "0px";
@@ -95,12 +102,22 @@ const switchPopup = function (shouldOpen) {
     textArea.style.opacity = 0;
     closeTimeout = setTimeout(() => {
       !shouldOpen && body.removeChild(popupDiv);
-    }, 700);
+    }, 600);
   }
 };
 
 const goEditMode = function (popup, editModeState) {
+  btnsWrapper.style.visibility = "hidden";
+  btnsWrapper.style.opacity = "0";
+  textArea.style.visibility = "hidden";
+  textArea.style.opacity = 0;
   editBtn.textContent = isEditMode ? "Exit full screen" : "Edit in full screen";
   popup.style.width = editModeState ? "96%" : "350px";
   popup.style.height = editModeState ? "96%" : "300px";
+  setTimeout(() => {
+    btnsWrapper.style.visibility = "visible";
+    btnsWrapper.style.opacity = 1;
+    textArea.style.visibility = "visible";
+    textArea.style.opacity = 1;
+  }, 500);
 };
