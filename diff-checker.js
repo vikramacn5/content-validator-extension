@@ -33,7 +33,7 @@ const diffCheck = function (oldStr, newStr) {
     max-height: 180px;
     width: 400px;
     overflow-y: scroll;
-    padding: 24px 30px 0px;
+    padding: 0 30px;
   `;
 
   result.forEach((part) => {

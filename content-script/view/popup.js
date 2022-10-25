@@ -121,3 +121,9 @@ const goEditMode = function (popup, editModeState) {
     textArea.style.opacity = 1;
   }, 500);
 };
+
+const showResult = function () {
+  textArea.parentElement.removeChild(textArea);
+  popupDiv.style.height = "auto";
+  popupDiv.style.width = "auto";
+};

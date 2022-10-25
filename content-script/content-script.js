@@ -12,6 +12,7 @@ const checkClickHandler = function () {
   const content = document.querySelector(".extn-cv-textarea").value;
   console.log(content);
   mainFunctionalityInit(content);
+  showResult();
 };
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {

@@ -1,0 +1,28 @@
+Zoho Calendar Mobile App Webpage Content
+
+Online calendar on your mobile to help scheduling
+The Zoho Calendar app on your mobile device makes it easy for you to access your online calendar, helping you stay organized by scheduling events and meetings by just reaching for your phone.
+
+Map to the rescue!
+Arrive at your meeting room without hassle with linked Google/Apple maps that guide you to the route when you just tap on the location you've entered.
+
+Forward and collaborate
+Forward meeting invites to new invitees who were uninvited, and let them react with a response as Yes, Maybe, or No to the invite.
+
+Available?! Then schedule.
+Be it participants or meeting rooms, both are necessary to schedule a meeting. Check availability beforehand at specified time slots and minimize cancellation/deletion chaos.
+
+Progress with a conference
+Link the conference app, Zoho Meeting to the events you create and collaborate more effectively with online discussion sessions. Also, record, download, and share content for those who missed the conference and for attendees' future reference.
+
+Simply drag and drop
+You'll no longer have to manually set or change your event timings. To host your meetings, simply drag and drop the event into the calendar grid to the convenient time slots in the one-day, three-day, or one-week views.
+
+Change the layout
+Change the calendar layout with five different views—one day, three days, one week, one month, and agenda to get an at-a-glance outlook of the events in your schedule.
+
+Native calendar sync
+Effortlessly access the events you've created in the calendar app on your mobile device from the Zoho Calendar mobile app by simply syncing all of your event data from your native calendar.
+
+Footer Text
+All your meetings and schedules at your fingertip.

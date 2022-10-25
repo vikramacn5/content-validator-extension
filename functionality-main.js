@@ -105,7 +105,7 @@ const mainFunctionalityInit = function (content) {
           matchRange * 100
         ).toFixed(2)} percentage match range`;
         allTextElements[j].style.backgroundColor = "#ff7070";
-        const diffElement = diffCheck(text2, text1);
+        // const diffElement = diffCheck(text2, text1);
         addHoverListener(allTextElements[j], text1, text2);
         // allTextElements[j].innerHTML = diffElement.innerHTML;
         break;
