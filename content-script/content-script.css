@@ -97,3 +97,46 @@
 .virtual-content p {
   margin: 0;
 }
+
+.extn-cv-info p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.extn-cv-highlight-info p {
+  display: grid;
+  grid-gap: 10px;
+  grid-auto-flow: column;
+  align-items: center;
+  color: #bbb;
+  margin: 0;
+  justify-content: left;
+}
+
+.extn-cv-highlight-info span {
+  height: 8px;
+  width: 8px;
+  background-color: green;
+  display: inline-block;
+  border-radius: 50%;
+}
+
+.extn-cv-highlight-green span {
+  background-color: green;
+}
+.extn-cv-highlight-yellow span {
+  background-color: yellow;
+}
+.extn-cv-highlight-red span {
+  background-color: red;
+}
+.extn-cv-highlight-none span {
+  background-color: #bbb;
+}
+
+p.extn-cv-popup-green {
+  color: green;
+}
+p.extn-cv-popup-red {
+  color: red;
+}

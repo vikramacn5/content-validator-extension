@@ -124,6 +124,29 @@ const goEditMode = function (popup, editModeState) {
 
 const showResult = function () {
   textArea.parentElement.removeChild(textArea);
+  btnsWrapper.parentElement.removeChild(btnsWrapper);
+
+  const highlightInfo = document.createElement("div");
+  highlightInfo.classList.add("extn-cv-info", "extn-cv-highlight-info");
+  highlightInfo.style.padding = "20px";
+  highlightInfo.style.borderBottom = "1px solid #006401";
+  highlightInfo.innerHTML = `
+    <p class = "entn-cv-highlight-green"><span>&nbsp;</span>Text highlighted in green has exact match with the writer content</p>
+    <p class = "extn-cv-highlight-yellow"><span>&nbsp;</span>Text highlighted in yellow has 90% or more match with writer content</p>
+    <p class = "extn-cv-highlight-red"><span>&nbsp;</span>Text highlighted in red has 70% or more match with writer content</p>
+    <p class = "extn-cv-highlight-none"><span>&nbsp;</span>Text not highlighted in any colors has a match range of less than 70%</p>
+  `;
+
+  const popupInfo = document.createElement("div");
+  popupInfo.classList.add("extn-cv-info", "extn-cv-popup-info");
+  popupInfo.style.padding = "20px";
+  popupInfo.innerHTML = `
+    <p class = "extn-cv-popup-green">Text in green inside hover popup needs to be added</p>
+    <p class = "extn-cv-popup-red">Text in red inside hover popup needs to be removed</p>
+  `;
+
+  popupDiv.appendChild(highlightInfo);
+  popupDiv.appendChild(popupInfo);
   popupDiv.style.height = "auto";
   popupDiv.style.width = "auto";
 };
