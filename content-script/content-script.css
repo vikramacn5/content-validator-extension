@@ -140,3 +140,67 @@ p.extn-cv-popup-green {
 p.extn-cv-popup-red {
   color: red;
 }
+
+.extn-cv-result-wrapper > div > span {
+  display: inline-block;
+  height: 10px;
+  width: 18px;
+  margin-inline: 20px;
+  transform: rotate(0deg) translateY(5px);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  transform-origin: bottom;
+  background-color: #fff;
+  cursor: pointer;
+  transition: transform 0.5s ease;
+}
+
+.extn-cv-result-wrapper > div > span.close {
+  transform: rotate(-90deg) translateY(5px);
+}
+
+.extn-cv-result-wrapper > div > h3 {
+  display: inline-block;
+}
+
+.extn-cv-sub-result-heading {
+  margin-bottom: 30px;
+  color: #fff;
+}
+
+.extn-cv-sub-result-wrapper {
+  overflow: hidden;
+}
+
+.extn-cv-sub-result-wrapper > div {
+  border: 1px solid #666;
+  padding: 20px 40px;
+  margin-bottom: 80px;
+}
+
+.extn-cv-sub-result-wrapper > div > div {
+  display: grid;
+  grid-template-columns: 1fr 1fr 0.5fr;
+  align-items: center;
+  justify-items: center;
+  grid-gap: 20px;
+}
+
+.extn-cv-sub-result-wrapper > div > div:first-child {
+  color: #fff;
+}
+
+.extn-cv-result-wrapper::-webkit-scrollbar {
+  width: 8px;
+}
+.extn-cv-result-wrapper::-webkit-scrollbar-track {
+  background: #333;
+  border-radius: 10px;
+}
+
+.extn-cv-result-wrapper::-webkit-scrollbar-thumb {
+  background: #666;
+  border-radius: 10px;
+}
+.extn-cv-result-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
