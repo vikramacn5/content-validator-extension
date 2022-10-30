@@ -3,6 +3,8 @@
 let isPopupOpen = false;
 let isEditMode = false;
 
+let resultsObject;
+
 const editClickHandler = function () {
   isEditMode = !isEditMode;
   goEditMode(); // comes from view.js
@@ -11,7 +13,7 @@ const editClickHandler = function () {
 const checkClickHandler = function () {
   const content = document.querySelector(".extn-cv-textarea").value;
   console.log(content);
-  mainFunctionalityInit(content);
+  resultsObject = mainFunctionalityInit(content);
   showInfo();
 };
 

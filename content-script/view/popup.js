@@ -191,7 +191,18 @@ const showResult = function () {
   popupDiv.style.height = "96%";
   popupDiv.removeChild(highlightInfo);
   popupDiv.removeChild(popupInfo);
-  popupDiv.insertAdjacentElement("afterbegin", getResults());
+  btnsWrapper.style.opacity = 0;
+  btnsWrapper.style.visibility = "hidden";
+  setTimeout(() => {
+    popupDiv.insertAdjacentElement("afterbegin", getResults());
+    document.querySelectorAll(".extn-cv-sub-result-wrapper").forEach((node) => {
+      node.style.height = node.clientHeight + "px";
+      node.dataset.height = node.clientHeight;
+    });
+
+    btnsWrapper.style.opacity = 1;
+    btnsWrapper.style.visibility = "visible";
+  }, 700);
 };
 
 const backToEdit = function () {

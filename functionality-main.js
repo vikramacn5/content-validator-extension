@@ -4,6 +4,12 @@
 // import { removeContentTip } from "./view.js";
 
 const mainFunctionalityInit = function (content) {
+  const resultsObject = {
+    missing: [],
+    major: [],
+    minor: [],
+  };
+
   const body = document.querySelector("body");
   body.addEventListener("click", function (e) {
     !e.target.closest(".content-tip") && removeContentTip();
@@ -79,13 +85,14 @@ const mainFunctionalityInit = function (content) {
 
   for (let i = 0; i < refinedContentArray.length; i++) {
     let containsContent;
+    let matchRange;
 
     for (let j = 0; j < allTextElements.length; j++) {
       const text1 = refinedContentArray[i];
       // console.log("hello", allTextElements[j].textContent);
       const text2 = cleanContent(allTextElements[j].textContent);
 
-      const matchRange = compareTwoStrings(text1, text2);
+      matchRange = compareTwoStrings(text1, text2);
 
       if (matchRange === 1) {
         containsContent = true;
@@ -99,6 +106,12 @@ const mainFunctionalityInit = function (content) {
         // const diffElement = diffCheck(text2, text1);
         addHoverListener(allTextElements[j], text1, text2);
         // allTextElements[j].innerHTML = diffElement.innerHTML;
+        resultsObject.minor.push({
+          pageElement: allTextElements[j],
+          pageContent: text2,
+          writerContent: text1,
+          matchRange,
+        });
         break;
       } else if (matchRange >= 0.75 && matchRange < 0.9) {
         containsContent = `${text2}, A lot of changes with ${(
@@ -108,12 +121,22 @@ const mainFunctionalityInit = function (content) {
         // const diffElement = diffCheck(text2, text1);
         addHoverListener(allTextElements[j], text1, text2);
         // allTextElements[j].innerHTML = diffElement.innerHTML;
+        resultsObject.major.push({
+          pageElement: allTextElements[j],
+          pageContent: text2,
+          writerContent: text1,
+          matchRange,
+        });
         break;
       }
+    }
+    if (matchRange < 0.75) {
+      resultsObject.missing.push(refinedContentArray[i]);
     }
     console.log(
       containsContent ??
         (false, refinedContentArray[i] + " is not present on the page")
     );
   }
+  return resultsObject;
 };
