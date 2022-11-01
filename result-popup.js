@@ -128,6 +128,7 @@ resultDiv.style.cssText = `
   padding: 60px;
   color: #bbb;
   overflow-y: scroll;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
 `;
 
 const getResults = function () {

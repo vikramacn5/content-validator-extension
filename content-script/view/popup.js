@@ -134,8 +134,16 @@ const switchPopup = function (shouldOpen) {
       body.appendChild(popupDiv);
     closeTimeout && clearTimeout(closeTimeout);
     setTimeout(() => {
-      popupDiv.style.width = isEditMode ? "96%" : "350px";
-      popupDiv.style.height = isEditMode ? "96%" : "300px";
+      popupDiv.style.width = isEditMode
+        ? "96%"
+        : isInfoMode
+        ? "505px"
+        : "350px";
+      popupDiv.style.height = isEditMode
+        ? "96%"
+        : isInfoMode
+        ? "274px"
+        : "300px";
       popupDiv.style.borderRadius = "10px";
       // btnsWrapper.style.visibility = "visible";
       // btnsWrapper.style.opacity = 1;
@@ -148,7 +156,11 @@ const switchPopup = function (shouldOpen) {
       btnsWrapper.style.opacity = 1;
       textArea.style.visibility = "visible";
       textArea.style.opacity = 1;
-    }, 500);
+      highlightInfo.style.visibility = "visible";
+      highlightInfo.style.opacity = 1;
+      popupInfo.style.visibility = "visible";
+      popupInfo.style.opacity = 1;
+    }, 600);
   } else {
     popupDiv.style.width = "0px";
     popupDiv.style.height = "0px";
@@ -157,6 +169,10 @@ const switchPopup = function (shouldOpen) {
     btnsWrapper.style.opacity = "0";
     textArea.style.visibility = "hidden";
     textArea.style.opacity = 0;
+    highlightInfo.style.visibility = "hidden";
+    highlightInfo.style.opacity = 0;
+    popupInfo.style.visibility = "hidden";
+    popupInfo.style.opacity = 0;
     closeTimeout = setTimeout(() => {
       !shouldOpen && body.removeChild(popupDiv);
     }, 600);
@@ -184,12 +200,14 @@ const goEditMode = function () {
 };
 
 const showInfo = function () {
+  isInfoMode = true;
   popupDiv.contains(textAreaWrapper) && popupDiv.removeChild(textAreaWrapper);
   popupDiv.contains(resultDiv) && popupDiv.removeChild(resultDiv);
   // textArea.parentElement.removeChild(textArea);
   btnsWrapper.contains(checkBtn) && btnsWrapper.removeChild(checkBtn);
   btnsWrapper.contains(editBtn) && btnsWrapper.removeChild(editBtn);
   btnsWrapper.contains(infoBtn) && btnsWrapper.removeChild(infoBtn);
+  btnsWrapper.contains(minimizeBtn) && btnsWrapper.removeChild(minimizeBtn);
   !btnsWrapper.contains(resultBtn) && btnsWrapper.prepend(resultBtn);
   !btnsWrapper.contains(backBtn) && btnsWrapper.appendChild(backBtn);
 
@@ -217,6 +235,7 @@ const showInfo = function () {
 
 const showResult = function () {
   console.log("results");
+  isInfoMode = false;
   popupDiv.style.width = "96%";
   popupDiv.style.height = "96%";
   popupDiv.removeChild(highlightInfo);
@@ -240,6 +259,7 @@ const showResult = function () {
 
 const backToEdit = function () {
   console.log("edit mode");
+  isInfoMode = false;
   popupDiv.contains(highlightInfo) && popupDiv.removeChild(highlightInfo);
   popupDiv.contains(popupInfo) && popupDiv.removeChild(popupInfo);
   popupDiv.contains(resultDiv) && popupDiv.removeChild(resultDiv);
@@ -247,43 +267,47 @@ const backToEdit = function () {
   btnsWrapper.contains(resultBtn) && btnsWrapper.removeChild(resultBtn);
   btnsWrapper.contains(backBtn) && btnsWrapper.removeChild(backBtn);
   btnsWrapper.contains(infoBtn) && btnsWrapper.removeChild(infoBtn);
+  btnsWrapper.contains(minimizeBtn) && btnsWrapper.removeChild(minimizeBtn);
   btnsWrapper.appendChild(editBtn);
   btnsWrapper.appendChild(checkBtn);
   showTextareaAndButtons();
 };
 
-const minimizeResultWindow = function (shouldClose) {
-  console.log(shouldClose);
-  const visibility = shouldClose ? "hidden" : "visible";
-  const opacity = shouldClose ? 0 : 1;
-  const popupWidth = shouldClose ? "60px" : "96%";
-  const popupHeight = shouldClose ? "60px" : "96%";
-  const popupBorderRadius = shouldClose ? "50px" : "10px";
+const maximizeResultWindow = function () {
+  popupDiv.style.width = "96%";
+  popupDiv.style.height = "96%";
+  popupDiv.style.borderRadius = "10px";
 
-  resultDiv.style.opacity = opacity;
-  resultDiv.style.visibility = visibility;
-  btnsWrapper.style.opacity = opacity;
-  btnsWrapper.style.visibility = visibility;
+  setTimeout(function () {
+    resultDiv.style.opacity = 1;
+    resultDiv.style.visibility = "visible";
+    btnsWrapper.style.opacity = 1;
+    btnsWrapper.style.visibility = "visible";
+  }, 500);
 
-  popupDiv.style.width = popupWidth;
-  popupDiv.style.height = popupHeight;
-  popupDiv.style.borderRadius = popupBorderRadius;
+  iconDiv.parentElement.removeChild(iconDiv);
+  iconDiv.style.opacity = 0;
+  iconDiv.style.visibility = "hidden";
+  iconDiv.removeEventListener("click", maximizeResultWindow);
+};
 
-  if (!shouldClose) {
-    iconDiv.style.opacity = 0;
-    iconDiv.style.visibility = "hidden";
-    iconDiv.removeEventListener("click", minimizeResultWindow);
-  }
+const minimizeResultWindow = function () {
+  resultDiv.style.opacity = 0;
+  resultDiv.style.visibility = "hidden";
+  btnsWrapper.style.opacity = 0;
+  btnsWrapper.style.visibility = "hidden";
 
-  shouldClose ? popupDiv.appendChild(iconDiv) : popupDiv.removeChild(iconDiv);
+  popupDiv.style.width = "60px";
+  popupDiv.style.height = "60px";
+  popupDiv.style.borderRadius = "50px";
 
-  if (shouldClose) {
-    setTimeout(function () {
-      iconDiv.style.visibility = "visible";
-      iconDiv.style.opacity = 1;
-      iconDiv.addEventListener("click", minimizeResultWindow.bind(this, false));
-    }, 500);
-  }
+  popupDiv.appendChild(iconDiv);
+
+  setTimeout(function () {
+    iconDiv.style.visibility = "visible";
+    iconDiv.style.opacity = 1;
+    iconDiv.addEventListener("click", maximizeResultWindow);
+  }, 500);
 };
 
 // document.querySelectorAll('.zw-paragraph')[10].textContent.trim()
