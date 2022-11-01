@@ -93,6 +93,7 @@ iconDiv.style.cssText = `
   border-radius: 50px;
   visibility: hidden;
   opacity:0;
+  cursor: pointer;
   transition: opacity 0.2s ease, visibility 0.2s ease;
 `;
 
@@ -252,21 +253,36 @@ const backToEdit = function () {
 };
 
 const minimizeResultWindow = function (shouldClose) {
+  console.log(shouldClose);
   const visibility = shouldClose ? "hidden" : "visible";
   const opacity = shouldClose ? 0 : 1;
+  const popupWidth = shouldClose ? "60px" : "96%";
+  const popupHeight = shouldClose ? "60px" : "96%";
+  const popupBorderRadius = shouldClose ? "50px" : "10px";
 
   resultDiv.style.opacity = opacity;
   resultDiv.style.visibility = visibility;
   btnsWrapper.style.opacity = opacity;
   btnsWrapper.style.visibility = visibility;
 
+  popupDiv.style.width = popupWidth;
+  popupDiv.style.height = popupHeight;
+  popupDiv.style.borderRadius = popupBorderRadius;
+
+  if (!shouldClose) {
+    iconDiv.style.opacity = 0;
+    iconDiv.style.visibility = "hidden";
+    iconDiv.removeEventListener("click", minimizeResultWindow);
+  }
+
+  shouldClose ? popupDiv.appendChild(iconDiv) : popupDiv.removeChild(iconDiv);
+
   if (shouldClose) {
-    popupDiv.style.width = "60px";
-    popupDiv.style.height = "60px";
-    popupDiv.style.borderRadius = "50px";
-    popupDiv.appendChild(iconDiv);
-    iconDiv.style.visibility = "visible";
-    iconDiv.style.opacity = 1;
+    setTimeout(function () {
+      iconDiv.style.visibility = "visible";
+      iconDiv.style.opacity = 1;
+      iconDiv.addEventListener("click", minimizeResultWindow.bind(this, false));
+    }, 500);
   }
 };
 

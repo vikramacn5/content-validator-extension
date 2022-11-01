@@ -23,7 +23,7 @@ checkBtn.addEventListener("click", checkClickHandler);
 resultBtn.addEventListener("click", showResult);
 backBtn.addEventListener("click", backToEdit);
 infoBtn.addEventListener("click", showInfo);
-minimizeBtn.addEventListener("click", minimizeResultWindow.bind(true));
+minimizeBtn.addEventListener("click", minimizeResultWindow.bind(this, true));
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   isPopupOpen = !isPopupOpen;

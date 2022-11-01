@@ -38,10 +38,10 @@
 
   "permissions": ["storage", "tabs"],
 
-  "web_accessible-resources": [
+  "web_accessible_resources": [
     {
-      "resources": ["./img/cv-logo.png"],
-      "matches": ["<all_urls>"]
+      "resources": ["img/cv-logo.png"],
+      "matches": ["https://*/*"]
     }
   ]
 }
