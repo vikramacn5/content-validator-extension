@@ -186,6 +186,7 @@ p.extn-cv-popup-red {
 .extn-cv-sub-result-wrapper > div h4,
 .extn-cv-sub-result-wrapper > div > div p:last-child:not(:first-child) {
   text-align: center;
+  align-self: center;
 }
 
 .extn-cv-sub-result-wrapper > div p,
@@ -202,7 +203,7 @@ p.extn-cv-popup-red {
 .extn-cv-sub-result-wrapper > div > div {
   display: grid;
   grid-template-columns: 1fr 1fr 0.5fr;
-  align-items: center;
+  /* align-items: center; */
   justify-items: center;
   /* grid-gap: 20px; */
 }

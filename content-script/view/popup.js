@@ -55,6 +55,14 @@ const backBtn = document.createElement("button");
 backBtn.textContent = "Back to edit";
 backBtn.classList.add("extn-cv-back-btn", "extn-cv-btn");
 
+const infoBtn = document.createElement("button");
+infoBtn.textContent = "Show info";
+infoBtn.classList.add("extn-cv-info-btn", "extn-cv-btn");
+
+const minimizeBtn = document.createElement("button");
+minimizeBtn.textContent = "Minimize";
+minimizeBtn.classList.add("extn-cv-minimize-btn", "extn-cv-btn");
+
 const btnsWrapper = document.createElement("div");
 btnsWrapper.classList.add("extn-cv-btn-wrapper");
 btnsWrapper.style.cssText = `
@@ -67,6 +75,25 @@ btnsWrapper.style.cssText = `
   visibility: hidden;
   opacity:0;
   transition: opacity .2s ease;
+`;
+
+const iconDiv = document.createElement("div");
+iconDiv.classList.add("extn-cv-icon-div");
+const iconImg = document.createElement("img");
+iconImg.src = chrome.runtime.getURL("img/cv-logo.png");
+iconImg.style.height = "100%";
+iconImg.style.width = "100%";
+iconDiv.appendChild(iconImg);
+iconDiv.style.cssText = `
+  position: absolute;
+  left:0;
+  right:0;
+  height: 100%;
+  width: 100%;
+  border-radius: 50px;
+  visibility: hidden;
+  opacity:0;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
 `;
 
 btnsWrapper.appendChild(editBtn);
@@ -156,12 +183,14 @@ const goEditMode = function () {
 };
 
 const showInfo = function () {
-  popupDiv.removeChild(textAreaWrapper);
+  popupDiv.contains(textAreaWrapper) && popupDiv.removeChild(textAreaWrapper);
+  popupDiv.contains(resultDiv) && popupDiv.removeChild(resultDiv);
   // textArea.parentElement.removeChild(textArea);
-  btnsWrapper.removeChild(checkBtn);
-  btnsWrapper.removeChild(editBtn);
-  btnsWrapper.appendChild(resultBtn);
-  btnsWrapper.appendChild(backBtn);
+  btnsWrapper.contains(checkBtn) && btnsWrapper.removeChild(checkBtn);
+  btnsWrapper.contains(editBtn) && btnsWrapper.removeChild(editBtn);
+  btnsWrapper.contains(infoBtn) && btnsWrapper.removeChild(infoBtn);
+  !btnsWrapper.contains(resultBtn) && btnsWrapper.prepend(resultBtn);
+  !btnsWrapper.contains(backBtn) && btnsWrapper.appendChild(backBtn);
 
   popupDiv.insertAdjacentElement("afterbegin", popupInfo);
   popupDiv.insertAdjacentElement("afterbegin", highlightInfo);
@@ -193,6 +222,9 @@ const showResult = function () {
   popupDiv.removeChild(popupInfo);
   btnsWrapper.style.opacity = 0;
   btnsWrapper.style.visibility = "hidden";
+  btnsWrapper.removeChild(resultBtn);
+  btnsWrapper.insertAdjacentElement("afterbegin", infoBtn);
+  btnsWrapper.insertAdjacentElement("afterbegin", minimizeBtn);
   setTimeout(() => {
     popupDiv.insertAdjacentElement("afterbegin", getResults());
     document.querySelectorAll(".extn-cv-sub-result-wrapper").forEach((node) => {
@@ -207,12 +239,35 @@ const showResult = function () {
 
 const backToEdit = function () {
   console.log("edit mode");
-  highlightInfo.parentElement.removeChild(highlightInfo);
-  popupInfo.parentElement.removeChild(popupInfo);
+  popupDiv.contains(highlightInfo) && popupDiv.removeChild(highlightInfo);
+  popupDiv.contains(popupInfo) && popupDiv.removeChild(popupInfo);
+  popupDiv.contains(resultDiv) && popupDiv.removeChild(resultDiv);
   popupDiv.insertAdjacentElement("afterbegin", textAreaWrapper);
-  btnsWrapper.removeChild(resultBtn);
-  btnsWrapper.removeChild(backBtn);
+  btnsWrapper.contains(resultBtn) && btnsWrapper.removeChild(resultBtn);
+  btnsWrapper.contains(backBtn) && btnsWrapper.removeChild(backBtn);
+  btnsWrapper.contains(infoBtn) && btnsWrapper.removeChild(infoBtn);
   btnsWrapper.appendChild(editBtn);
   btnsWrapper.appendChild(checkBtn);
   showTextareaAndButtons();
 };
+
+const minimizeResultWindow = function (shouldClose) {
+  const visibility = shouldClose ? "hidden" : "visible";
+  const opacity = shouldClose ? 0 : 1;
+
+  resultDiv.style.opacity = opacity;
+  resultDiv.style.visibility = visibility;
+  btnsWrapper.style.opacity = opacity;
+  btnsWrapper.style.visibility = visibility;
+
+  if (shouldClose) {
+    popupDiv.style.width = "60px";
+    popupDiv.style.height = "60px";
+    popupDiv.style.borderRadius = "50px";
+    popupDiv.appendChild(iconDiv);
+    iconDiv.style.visibility = "visible";
+    iconDiv.style.opacity = 1;
+  }
+};
+
+// document.querySelectorAll('.zw-paragraph')[10].textContent.trim()

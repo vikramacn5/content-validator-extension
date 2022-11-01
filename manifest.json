@@ -36,5 +36,12 @@
     }
   ],
 
-  "permissions": ["storage", "tabs"]
+  "permissions": ["storage", "tabs"],
+
+  "web_accessible-resources": [
+    {
+      "resources": ["./img/cv-logo.png"],
+      "matches": ["<all_urls>"]
+    }
+  ]
 }

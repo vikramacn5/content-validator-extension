@@ -120,11 +120,9 @@ const createMinorFaultsDiv = function () {
   return minorFaultsDiv;
 };
 
-const getResults = function () {
-  console.log(resultsObject);
-  const resultDiv = document.createElement("div");
-  resultDiv.classList.add("extn-cv-result-wrapper");
-  resultDiv.style.cssText = `
+const resultDiv = document.createElement("div");
+resultDiv.classList.add("extn-cv-result-wrapper");
+resultDiv.style.cssText = `
   width: 100%;
   height: 100%;
   padding: 60px;
@@ -132,6 +130,10 @@ const getResults = function () {
   overflow-y: scroll;
 `;
 
+const getResults = function () {
+  console.log(resultsObject);
+
+  resultDiv.innerHTML = "";
   resultsObject.missing.length &&
     resultDiv.appendChild(createMissingContentDiv());
   resultsObject.major.length && resultDiv.appendChild(createMajorFaultsDiv());
