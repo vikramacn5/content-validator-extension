@@ -4,6 +4,7 @@ let isPopupOpen = false;
 let isEditMode = false;
 let isInfoMode = false;
 let isResultsMode = false;
+let isResultWindowHalf = false;
 
 let resultsObject;
 
@@ -25,6 +26,7 @@ resultBtn.addEventListener("click", showResult);
 backBtn.addEventListener("click", backToEdit);
 infoBtn.addEventListener("click", showInfo);
 minimizeBtn.addEventListener("click", minimizeResultWindow);
+resizeResultWindowBtn.addEventListener("click", resizeResultWindow);
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   isPopupOpen = !isPopupOpen;

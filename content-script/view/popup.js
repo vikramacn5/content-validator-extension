@@ -63,6 +63,10 @@ const minimizeBtn = document.createElement("button");
 minimizeBtn.textContent = "Minimize";
 minimizeBtn.classList.add("extn-cv-minimize-btn", "extn-cv-btn");
 
+const resizeResultWindowBtn = document.createElement("button");
+resizeResultWindowBtn.textContent = "Reduce window size";
+resizeResultWindowBtn.classList.add("extn-cv-resize-btn", "extn-cv-btn");
+
 const btnsWrapper = document.createElement("div");
 btnsWrapper.classList.add("extn-cv-btn-wrapper");
 btnsWrapper.style.cssText = `
@@ -106,6 +110,7 @@ const highlightInfo = document.createElement("div");
 highlightInfo.classList.add("extn-cv-info", "extn-cv-highlight-info");
 highlightInfo.style.padding = "20px";
 highlightInfo.style.borderBottom = "1px solid #006401";
+highlightInfo.style.whiteSpace = "nowrap";
 highlightInfo.style.transition = "opacity 0.2s ease, visibility 0.2s ease";
 highlightInfo.innerHTML = `
   <p class = "entn-cv-highlight-green"><span>&nbsp;</span>Text highlighted in green has exact match with the writer content</p>
@@ -117,6 +122,7 @@ highlightInfo.innerHTML = `
 const popupInfo = document.createElement("div");
 popupInfo.classList.add("extn-cv-info", "extn-cv-popup-info");
 popupInfo.style.padding = "20px";
+popupInfo.style.whiteSpace = "nowrap";
 popupInfo.style.transition = "opacity 0.2s ease, visibility 0.2s ease";
 popupInfo.innerHTML = `
   <p class = "extn-cv-popup-green">Text in green inside hover popup needs to be added</p>
@@ -124,9 +130,8 @@ popupInfo.innerHTML = `
 `;
 
 let closeTimeout;
-const switchPopup = function (shouldOpen) {
-  // editBtn.textContent = isEditMode ? "Exit full screen" : "Edit in full screen";
 
+const switchPopup = function (shouldOpen) {
   const body = document.querySelector("body");
   if (shouldOpen) {
     !document.querySelector(".extn-cv-popup") &&
@@ -244,6 +249,7 @@ const showResult = function () {
   btnsWrapper.style.visibility = "hidden";
   btnsWrapper.removeChild(resultBtn);
   btnsWrapper.insertAdjacentElement("afterbegin", infoBtn);
+  btnsWrapper.prepend(resizeResultWindowBtn);
   btnsWrapper.insertAdjacentElement("afterbegin", minimizeBtn);
   setTimeout(() => {
     popupDiv.insertAdjacentElement("afterbegin", getResults());
@@ -309,5 +315,7 @@ const minimizeResultWindow = function () {
     iconDiv.addEventListener("click", maximizeResultWindow);
   }, 500);
 };
+
+const resizeResultWindow = function () {};
 
 // document.querySelectorAll('.zw-paragraph')[10].textContent.trim()
