@@ -73,6 +73,15 @@ const mainFunctionalityInit = function (content) {
 
   console.log(allTextElements);
 
+  const resetListenersAndBackground = function () {
+    allTextElements.forEach((el) => {
+      el.style.backgroundColor && el.style.removeProperty("background-color");
+      addHoverListener(false, el);
+    });
+  };
+
+  resetListenersAndBackground();
+
   const cleanContent = function (content) {
     return content.trim().replaceAll("’", "'").replace(/\s+/g, " ");
   };
@@ -104,7 +113,7 @@ const mainFunctionalityInit = function (content) {
         ).toFixed(2)} percentage match range`;
         allTextElements[j].style.backgroundColor = "#e0c552";
         // const diffElement = diffCheck(text2, text1);
-        addHoverListener(allTextElements[j], text1, text2);
+        addHoverListener(true, allTextElements[j], text1, text2);
         // allTextElements[j].innerHTML = diffElement.innerHTML;
         resultsObject.minor.push({
           pageElement: allTextElements[j],
@@ -119,7 +128,7 @@ const mainFunctionalityInit = function (content) {
         ).toFixed(2)} percentage match range`;
         allTextElements[j].style.backgroundColor = "#ff7070";
         // const diffElement = diffCheck(text2, text1);
-        addHoverListener(allTextElements[j], text1, text2);
+        addHoverListener(true, allTextElements[j], text1, text2);
         // allTextElements[j].innerHTML = diffElement.innerHTML;
         resultsObject.major.push({
           pageElement: allTextElements[j],
