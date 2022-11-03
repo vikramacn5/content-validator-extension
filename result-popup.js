@@ -74,6 +74,9 @@ const createDynamicInnerContent = function (isMajor) {
     subResultPageContent.classList.add("extn-cv-sub-page-content");
     subResultPageContent.textContent = contentObject.pageContent;
     subResultPageContent.addEventListener("click", function () {
+      if (!isResultWindowHalf) {
+        resizeResultWindow();
+      }
       contentObject.pageElement.scrollIntoView({
         behavior: "smooth",
         block: "end",

@@ -213,6 +213,8 @@ const showInfo = function () {
   btnsWrapper.contains(editBtn) && btnsWrapper.removeChild(editBtn);
   btnsWrapper.contains(infoBtn) && btnsWrapper.removeChild(infoBtn);
   btnsWrapper.contains(minimizeBtn) && btnsWrapper.removeChild(minimizeBtn);
+  btnsWrapper.contains(resizeResultWindowBtn) &&
+    btnsWrapper.removeChild(resizeResultWindowBtn);
   !btnsWrapper.contains(resultBtn) && btnsWrapper.prepend(resultBtn);
   !btnsWrapper.contains(backBtn) && btnsWrapper.appendChild(backBtn);
 
@@ -242,7 +244,7 @@ const showResult = function () {
   console.log("results");
   isInfoMode = false;
   popupDiv.style.width = "96%";
-  popupDiv.style.height = "96%";
+  popupDiv.style.height = isResultWindowHalf ? "60%" : "96%";
   popupDiv.removeChild(highlightInfo);
   popupDiv.removeChild(popupInfo);
   btnsWrapper.style.opacity = 0;
@@ -274,14 +276,21 @@ const backToEdit = function () {
   btnsWrapper.contains(backBtn) && btnsWrapper.removeChild(backBtn);
   btnsWrapper.contains(infoBtn) && btnsWrapper.removeChild(infoBtn);
   btnsWrapper.contains(minimizeBtn) && btnsWrapper.removeChild(minimizeBtn);
+  btnsWrapper.contains(resizeResultWindowBtn) &&
+    btnsWrapper.removeChild(resizeResultWindowBtn);
   btnsWrapper.appendChild(editBtn);
   btnsWrapper.appendChild(checkBtn);
   showTextareaAndButtons();
 };
 
 const maximizeResultWindow = function () {
+  iconDiv.style.opacity = 0;
+  iconDiv.style.visibility = "hidden";
+  popupDiv.removeChild(iconDiv);
+  iconDiv.removeEventListener("click", maximizeResultWindow);
+
   popupDiv.style.width = "96%";
-  popupDiv.style.height = "96%";
+  popupDiv.style.height = isResultWindowHalf ? "60%" : "96%";
   popupDiv.style.borderRadius = "10px";
 
   setTimeout(function () {
@@ -290,11 +299,6 @@ const maximizeResultWindow = function () {
     btnsWrapper.style.opacity = 1;
     btnsWrapper.style.visibility = "visible";
   }, 500);
-
-  iconDiv.parentElement.removeChild(iconDiv);
-  iconDiv.style.opacity = 0;
-  iconDiv.style.visibility = "hidden";
-  iconDiv.removeEventListener("click", maximizeResultWindow);
 };
 
 const minimizeResultWindow = function () {
@@ -316,6 +320,15 @@ const minimizeResultWindow = function () {
   }, 500);
 };
 
-const resizeResultWindow = function () {};
+const resizeResultWindow = function () {
+  if (!isResultWindowHalf) {
+    popupDiv.style.height = "60%";
+    resizeResultWindowBtn.textContent = "Increase window size";
+  } else {
+    resizeResultWindowBtn.textContent = "Reduce window size";
+    popupDiv.style.height = "96%";
+  }
+  isResultWindowHalf = !isResultWindowHalf;
+};
 
 // document.querySelectorAll('.zw-paragraph')[10].textContent.trim()
