@@ -42,3 +42,23 @@ chrome.action.onClicked.addListener(() => {
   // isOpen = !isOpen;
   // console.log(isOpen);
 });
+
+chrome.runtime.onMessage.addListener(async function (
+  writerUrl,
+  sender,
+  sendResponse
+) {
+  console.log(writerUrl);
+  const tabInfo = await chrome.tabs.create({ active: true, url: writerUrl });
+  console.log(tabInfo);
+  // console.log(chrome.scripting);
+  const injectionResult = await chrome.scripting.executeScript({
+    files: ["./fetch-content-injector.js"],
+    target: {
+      tabId: tabInfo.id,
+    },
+  });
+
+  console.log(injectionResult);
+  sendResponse("hi");
+});

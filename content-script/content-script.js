@@ -20,8 +20,10 @@ const checkClickHandler = function () {
   showInfo();
 };
 
+textArea.addEventListener("input", checkIsLink);
 editBtn.addEventListener("click", editClickHandler);
 checkBtn.addEventListener("click", checkClickHandler);
+fetchBtn.addEventListener("click", fetchWriterContent);
 resultBtn.addEventListener("click", showResult);
 backBtn.addEventListener("click", backToEdit);
 infoBtn.addEventListener("click", showInfo);

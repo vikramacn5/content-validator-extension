@@ -47,6 +47,10 @@ const checkBtn = document.createElement("button");
 checkBtn.textContent = "Check";
 checkBtn.classList.add("extn-cv-check-btn", "extn-cv-btn");
 
+const fetchBtn = document.createElement("button");
+fetchBtn.textContent = "Fetch";
+fetchBtn.classList.add("extn-cv-fetch-btn", "extn-cv-btn");
+
 const resultBtn = document.createElement("button");
 resultBtn.textContent = "Show results";
 resultBtn.classList.add("extn-cv-result-btn", "extn-cv-btn");
@@ -329,6 +333,24 @@ const resizeResultWindow = function () {
     popupDiv.style.height = "96%";
   }
   isResultWindowHalf = !isResultWindowHalf;
+};
+
+const checkIsLink = function (e) {
+  const regex =
+    /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
+  const result = regex.test(e.target.value);
+  console.log(result);
+  result &&
+    btnsWrapper.removeChild(checkBtn) &&
+    btnsWrapper.appendChild(fetchBtn);
+  !result &&
+    btnsWrapper.removeChild(fetchBtn) &&
+    btnsWrapper.appendChild(checkBtn);
+};
+
+const fetchWriterContent = async function () {
+  const writerContent = await chrome.runtime.sendMessage(textArea.value);
+  console.log(writerContent);
 };
 
 // document.querySelectorAll('.zw-paragraph')[10].textContent.trim()
