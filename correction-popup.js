@@ -35,6 +35,7 @@ const removeContentTip = function () {
 };
 
 const hoverHandler = function (e) {
+  console.log("from handler", { currentPageText }, { currentCorrectText });
   let isCorrectedTextShowing = false;
   const correctElement = diffCheck(currentPageText, currentCorrectText);
   removeContentTip();
@@ -185,6 +186,14 @@ const addHoverListener = function (shouldAdd, element, correctText, pageText) {
   currentCorrectText = correctText;
   currentPageText = pageText;
   currentElement = element;
+
+  console.log(
+    "from addHover",
+    { currentCorrectText },
+    { currentPageText },
+    { correctText },
+    { pageText }
+  );
 
   if (shouldAdd) {
     element.addEventListener("mouseenter", hoverHandler);
