@@ -3,6 +3,8 @@
 // import { addHoverListener } from "./view.js";
 // import { removeContentTip } from "./view.js";
 
+let matchedElements = [];
+
 const mainFunctionalityInit = function (content) {
   const resultsObject = {
     missing: [],
@@ -73,15 +75,22 @@ const mainFunctionalityInit = function (content) {
 
   console.log(allTextElements);
 
+  console.log(matchedElements);
   const resetListenersAndBackground = function () {
-    allTextElements.forEach((el) => {
-      el.style.backgroundColor && el.style.removeProperty("background-color");
-      addHoverListener(false, el);
+    matchedElements.forEach((elementEntry) => {
+      elementEntry.el.style.removeProperty("background-color");
+      elementEntry.hoverHandler &&
+        elementEntry.el.removeEventListener(
+          "mouseenter",
+          elementEntry.hoverHandler
+        );
     });
+    matchedElements = [];
   };
 
   resetListenersAndBackground();
 
+  console.log(matchedElements);
   const cleanContent = function (content) {
     return content.trim().replaceAll("’", "'").replace(/\s+/g, " ");
   };
@@ -105,6 +114,7 @@ const mainFunctionalityInit = function (content) {
 
       if (matchRange === 1) {
         containsContent = true;
+        matchedElements.push({ el: allTextElements[j] });
         allTextElements[j].style.backgroundColor = "lightgreen";
         break;
       } else if (matchRange >= 0.9) {
@@ -113,7 +123,12 @@ const mainFunctionalityInit = function (content) {
         ).toFixed(2)} percentage match range`;
         allTextElements[j].style.backgroundColor = "#e0c552";
         // const diffElement = diffCheck(text2, text1);
-        addHoverListener(true, allTextElements[j], text1, text2);
+        const hoverHandler = function () {
+          addCorrectionPopup.call(this, text1, text2);
+        };
+        matchedElements.push({ el: allTextElements[j], hoverHandler });
+        allTextElements[j].addEventListener("mouseenter", hoverHandler);
+        // addHoverListener(true, allTextElements[j], text1, text2);
         // allTextElements[j].innerHTML = diffElement.innerHTML;
         resultsObject.minor.push({
           pageElement: allTextElements[j],
@@ -128,7 +143,12 @@ const mainFunctionalityInit = function (content) {
         ).toFixed(2)} percentage match range`;
         allTextElements[j].style.backgroundColor = "#ff7070";
         // const diffElement = diffCheck(text2, text1);
-        addHoverListener(true, allTextElements[j], text1, text2);
+        const hoverHandler = function () {
+          addCorrectionPopup.call(this, text1, text2);
+        };
+        matchedElements.push({ el: allTextElements[j], hoverHandler });
+        allTextElements[j].addEventListener("mouseenter", hoverHandler);
+        // addHoverListener(true, allTextElements[j], text1, text2);
         // allTextElements[j].innerHTML = diffElement.innerHTML;
         resultsObject.major.push({
           pageElement: allTextElements[j],

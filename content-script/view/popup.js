@@ -344,6 +344,7 @@ const checkIsLink = function (e) {
     btnsWrapper.removeChild(checkBtn) &&
     btnsWrapper.appendChild(fetchBtn);
   !result &&
+    btnsWrapper.contains(fetchBtn) &&
     btnsWrapper.removeChild(fetchBtn) &&
     btnsWrapper.appendChild(checkBtn);
 };

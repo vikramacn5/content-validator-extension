@@ -24,7 +24,7 @@
 // `
 // );
 
-let currentCorrectText, currentPageText, currentElement;
+// let currentCorrectText, currentPageText, currentElement;
 
 // let isCorrectedTextShowing = false;
 
@@ -34,10 +34,10 @@ const removeContentTip = function () {
   if (contentTip) bodyEl.removeChild(contentTip);
 };
 
-const hoverHandler = function (e) {
-  console.log("from handler", { currentPageText }, { currentCorrectText });
+const addCorrectionPopup = function (correctText, pageText) {
+  console.log("from handler", { pageText }, { correctText });
   let isCorrectedTextShowing = false;
-  const correctElement = diffCheck(currentPageText, currentCorrectText);
+  const correctElement = diffCheck(pageText, correctText);
   removeContentTip();
   console.log(this.getBoundingClientRect(), this, correctElement);
 
@@ -89,7 +89,7 @@ const hoverHandler = function (e) {
     console.log(correctElement);
 
     virtualContentEl.innerHTML = !isCorrectedTextShowing
-      ? currentCorrectText
+      ? correctText
       : correctionText;
     console.log(correctionText);
     isCorrectedTextShowing = !isCorrectedTextShowing;
@@ -97,8 +97,8 @@ const hoverHandler = function (e) {
 
   clipboardCopy.addEventListener("click", function () {
     this.textContent = "Copied";
-    console.log(currentCorrectText);
-    navigator.clipboard.writeText(currentCorrectText);
+    console.log(correctText);
+    navigator.clipboard.writeText(correctText);
   });
 
   contentTip.style.cssText = `
@@ -182,22 +182,22 @@ const hoverHandler = function (e) {
   contentTip.style.visibility = "visible";
 };
 
-const addHoverListener = function (shouldAdd, element, correctText, pageText) {
-  currentCorrectText = correctText;
-  currentPageText = pageText;
-  currentElement = element;
+// const addHoverListener = function (shouldAdd, element, correctText, pageText) {
+//   currentCorrectText = correctText;
+//   currentPageText = pageText;
+//   currentElement = element;
 
-  console.log(
-    "from addHover",
-    { currentCorrectText },
-    { currentPageText },
-    { correctText },
-    { pageText }
-  );
+//   console.log(
+//     "from addHover",
+//     { currentCorrectText },
+//     { currentPageText },
+//     { correctText },
+//     { pageText }
+//   );
 
-  if (shouldAdd) {
-    element.addEventListener("mouseenter", hoverHandler);
-  } else {
-    element.removeEventListener("mouseenter", hoverHandler);
-  }
-};
+//   if (shouldAdd) {
+//     element.addEventListener("mouseenter", hoverHandler);
+//   } else {
+//     element.removeEventListener("mouseenter", hoverHandler);
+//   }
+// };
