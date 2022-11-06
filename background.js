@@ -4,6 +4,8 @@
 //   });
 // });
 
+let mainTab;
+
 chrome.action.onClicked.addListener(() => {
   chrome.tabs.query(
     {
@@ -11,9 +13,11 @@ chrome.action.onClicked.addListener(() => {
       currentWindow: true,
     },
     (tabInfo) => {
+      console.log(tabInfo);
+      mainTab = tabInfo[0];
       chrome.tabs.sendMessage(
         tabInfo[0].id,
-        "action button clicked",
+        { type: "action-click", text: "action button clicked" },
         (response) => console.log(response)
       );
     }
@@ -44,21 +48,31 @@ chrome.action.onClicked.addListener(() => {
 });
 
 chrome.runtime.onMessage.addListener(async function (
-  writerUrl,
+  message,
   sender,
   sendResponse
 ) {
-  console.log(writerUrl);
-  const tabInfo = await chrome.tabs.create({ active: true, url: writerUrl });
-  console.log(tabInfo);
-  // console.log(chrome.scripting);
-  const injectionResult = await chrome.scripting.executeScript({
-    files: ["./fetch-content-injector.js"],
-    target: {
-      tabId: tabInfo.id,
-    },
-  });
+  if (message.type === "writer-url") {
+    console.log(message.writerUrl, sender);
+    const tabInfo = await chrome.tabs.create({
+      active: false,
+      url: message.writerUrl,
+    });
+    console.log(tabInfo);
+    const injectionResult = await chrome.scripting.executeScript({
+      files: ["./fetch-content-injector.js"],
+      target: {
+        tabId: tabInfo.id,
+      },
+    });
 
-  console.log(injectionResult);
-  sendResponse("hi");
+    console.log(injectionResult);
+    sendResponse("Got the URL");
+  } else if (message.type === "writer-content") {
+    const response = await chrome.tabs.sendMessage(mainTab.id, {
+      type: "writer-content",
+      textContent: message.textContent,
+    });
+    console.log(response);
+  }
 });

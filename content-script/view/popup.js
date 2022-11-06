@@ -349,9 +349,34 @@ const checkIsLink = function (e) {
     btnsWrapper.appendChild(checkBtn);
 };
 
+const receiveContent = function () {
+  return new Promise(async function (resolve, reject) {
+    chrome.runtime.sendMessage({
+      type: "writer-url",
+      writerUrl: textArea.value,
+    });
+    // console.log(writerContent);
+    chrome.runtime.onMessage.addListener(function (
+      message,
+      sender,
+      sendResponse
+    ) {
+      resolve(message);
+      console.log(sender);
+      sendResponse("textContent recieved");
+    });
+  });
+};
+
 const fetchWriterContent = async function () {
-  const writerContent = await chrome.runtime.sendMessage(textArea.value);
-  console.log(writerContent);
+  chrome.runtime.sendMessage({
+    type: "writer-url",
+    writerUrl: textArea.value,
+  });
+};
+
+const addWriterContentToTextarea = function (writerContentArray) {
+  textArea.value = writerContentArray.join("\n");
 };
 
 // document.querySelectorAll('.zw-paragraph')[10].textContent.trim()

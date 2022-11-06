@@ -31,18 +31,22 @@ minimizeBtn.addEventListener("click", minimizeResultWindow);
 resizeResultWindowBtn.addEventListener("click", resizeResultWindow);
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  isPopupOpen = !isPopupOpen;
-  switchPopup(isPopupOpen); // comes from view.js
+  if (message.type === "action-click") {
+    isPopupOpen = !isPopupOpen;
+    switchPopup(isPopupOpen); // comes from view.js
 
-  // const popupEditBtn = document.querySelector(".extn-cv-edit-btn");
-  // popupEditBtn.addEventListener("click", editClickHandler);
+    // const popupEditBtn = document.querySelector(".extn-cv-edit-btn");
+    // popupEditBtn.addEventListener("click", editClickHandler);
 
-  // const popupCheckBtn = document.querySelector(".extn-cv-check-btn");
-  // popupCheckBtn.addEventListener("click", checkClickHandler);
+    // const popupCheckBtn = document.querySelector(".extn-cv-check-btn");
+    // popupCheckBtn.addEventListener("click", checkClickHandler);
 
-  // resultBtn.addEventListener("click", showResult);
-  // backBtn.addEventListener("click", backToEdit);
+    // resultBtn.addEventListener("click", showResult);
+    // backBtn.addEventListener("click", backToEdit);
 
-  console.log(message, sender);
-  sendResponse("I got the message: from content-script");
+    console.log(message, sender);
+    sendResponse("I got the message: from content-script");
+  } else if (message.type === "writer-content") {
+    addWriterContentToTextarea(message.textContent);
+  }
 });

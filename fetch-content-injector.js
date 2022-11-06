@@ -18,13 +18,20 @@ const waitForElm = function (selector, shouldCheckText, parent = document) {
       }
     }
 
-    const observer = new MutationObserver(async (mutations) => {
+    let timeDelay, observer;
+    timeDelay = setTimeout(() => {
+      resolve(false);
+      observer.disconnect();
+    }, 20000);
+
+    observer = new MutationObserver(async (mutations) => {
       if (parent.querySelector(selector)) {
-        await delay(1000);
+        // await delay(1000);
         if (shouldCheckText) {
           if (parent.querySelector(selector).textContent != "") {
             resolve(parent.querySelectorAll(selector));
             observer.disconnect();
+            clearTimeout(timeDelay);
           }
         } else {
           resolve(parent.querySelectorAll(selector));
@@ -44,14 +51,35 @@ const waitForElm = function (selector, shouldCheckText, parent = document) {
 
 window.addEventListener("load", async (e) => {
   console.log("hi");
-  totalPage = await waitForElm("#totalPage", true);
-  totalPage = +totalPage[0].textContent.split(" ")[1];
-  console.log(totalPage, "as a result");
-  const domPages = await waitForElm(".zw-pagecontainer");
-  while (domPages.length < totalPage) {
-    domPages = await waitForElm(".zw-pagecontainer");
+  let textContent = [];
+  let pageContainer = await waitForElm(".zw-pagecontainer");
+  if (pageContainer) {
+    await waitForElm(".zw-paragraph", true);
   }
-  console.log(domPages);
+  let pageCounter = 0;
+  while (pageCounter < pageContainer.length) {
+    await delay(1000);
+    pageContainer[pageCounter].scrollIntoView();
+    const paraDivs = await waitForElm(
+      ".zw-paragraph",
+      true,
+      pageContainer[pageCounter]
+    );
+    paraDivs.forEach((paraDiv) => textContent.push(paraDiv.textContent));
+    pageContainer = await waitForElm(".zw-pagecontainer");
+    pageCounter++;
+  }
+
+  textContent = textContent
+    .map((para) => para.trim())
+    .filter((para) => para != "");
+  console.log(textContent);
+
+  const response = await chrome.runtime.sendMessage({
+    type: "writer-content",
+    textContent,
+  });
+  console.log(response);
 });
 
 // const writerContent = Array.from(
