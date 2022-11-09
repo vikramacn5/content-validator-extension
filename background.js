@@ -55,7 +55,7 @@ chrome.runtime.onMessage.addListener(async function (
   if (message.type === "writer-url") {
     console.log(message.writerUrl, sender);
     const tabInfo = await chrome.tabs.create({
-      active: false,
+      active: true,
       url: message.writerUrl,
     });
     console.log(tabInfo);

@@ -52,21 +52,21 @@ const waitForElm = function (selector, shouldCheckText, parent = document) {
 window.addEventListener("load", async (e) => {
   console.log("hi");
   let textContent = [];
-  let pageContainer = await waitForElm(".zw-pagecontainer");
-  if (pageContainer) {
+  let pageContainers = await waitForElm(".zw-pagecontainer");
+  if (pageContainers) {
     await waitForElm(".zw-paragraph", true);
   }
   let pageCounter = 0;
-  while (pageCounter < pageContainer.length) {
+  while (pageCounter < pageContainers.length) {
     await delay(1000);
-    pageContainer[pageCounter].scrollIntoView();
+    pageContainers[pageCounter].scrollIntoView();
     const paraDivs = await waitForElm(
       ".zw-paragraph",
       true,
-      pageContainer[pageCounter]
+      pageContainers[pageCounter]
     );
     paraDivs.forEach((paraDiv) => textContent.push(paraDiv.textContent));
-    pageContainer = await waitForElm(".zw-pagecontainer");
+    pageContainers = await waitForElm(".zw-pagecontainer");
     pageCounter++;
   }
 
