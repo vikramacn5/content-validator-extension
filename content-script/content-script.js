@@ -47,6 +47,8 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     console.log(message, sender);
     sendResponse("I got the message: from content-script");
   } else if (message.type === "writer-content") {
-    addWriterContentToTextarea(message.textContent);
+    console.log(message.textContent);
+    // addWriterContentToTextarea(message.textContent);
+    sendResponse("for content from content script");
   }
 });

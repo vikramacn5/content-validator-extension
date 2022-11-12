@@ -12,14 +12,14 @@ chrome.action.onClicked.addListener(() => {
       active: true,
       currentWindow: true,
     },
-    (tabInfo) => {
+    async (tabInfo) => {
       console.log(tabInfo);
       mainTab = tabInfo[0];
-      chrome.tabs.sendMessage(
-        tabInfo[0].id,
-        { type: "action-click", text: "action button clicked" },
-        (response) => console.log(response)
-      );
+      const response = await chrome.tabs.sendMessage(tabInfo[0].id, {
+        type: "action-click",
+        text: "action button clicked",
+      });
+      console.log(response);
     }
   );
   // chrome.storage.local.get(["isPopupOpen"], (res) => {
@@ -47,32 +47,50 @@ chrome.action.onClicked.addListener(() => {
   // console.log(isOpen);
 });
 
-chrome.runtime.onMessage.addListener(async function (
-  message,
-  sender,
-  sendResponse
-) {
+chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   if (message.type === "writer-url") {
     console.log(message.writerUrl, sender);
-    const tabInfo = await chrome.tabs.create({
-      active: true,
-      url: message.writerUrl,
-    });
-    console.log(tabInfo);
-    const injectionResult = await chrome.scripting.executeScript({
-      files: ["./fetch-content-injector.js"],
-      target: {
-        tabId: tabInfo.id,
-      },
-    });
+    const injectFunction = function () {
+      console.log(docProps.content.content);
+      return docProps.content;
+      // setTimeout(() => {
+      //   console.log(docProps);
+      //   return docProps;
+      // }, 10000);
+    };
 
-    console.log(injectionResult);
-    sendResponse("Got the URL");
-  } else if (message.type === "writer-content") {
-    const response = await chrome.tabs.sendMessage(mainTab.id, {
-      type: "writer-content",
-      textContent: message.textContent,
-    });
-    console.log(response);
+    const injectScript = async function () {
+      const tabInfo = await chrome.tabs.create({
+        active: false,
+        url: message.writerUrl,
+      });
+      console.log(tabInfo);
+      const injectionResult = await chrome.scripting.executeScript({
+        // files: ["./fetch-content-injector.js"],
+        world: "MAIN",
+        func: injectFunction,
+        target: {
+          tabId: tabInfo.id,
+        },
+      });
+
+      console.log(injectionResult[0].result);
+      sendResponse(injectionResult[0].result);
+    };
+
+    injectScript();
+    return true;
+    // const response = await chrome.tabs.sendMessage(mainTab.id, {
+    //   type: "writer-content",
+    //   textContent: injectionResult[0].result,
+    // });
+    // console.log(response);
   }
+  // else if (message.type === "writer-content") {
+  //   const response = await chrome.tabs.sendMessage(mainTab.id, {
+  //     type: "writer-content",
+  //     textContent: message.textContent,
+  //   });
+  //   console.log(response);
+  // }
 });

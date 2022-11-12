@@ -1,4 +1,8 @@
 console.log("from injector");
+// document.head.insertAdjacentHTML(
+//   "afterbegin",
+//   `<meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'">`
+// );
 
 const delay = (sec) => new Promise((res) => setTimeout(() => res(), sec));
 
@@ -50,30 +54,36 @@ const waitForElm = function (selector, shouldCheckText, parent = document) {
 };
 
 window.addEventListener("load", async (e) => {
-  console.log("hi");
-  let textContent = [];
-  let pageContainers = await waitForElm(".zw-pagecontainer");
-  if (pageContainers) {
-    await waitForElm(".zw-paragraph", true);
-  }
-  let pageCounter = 0;
-  while (pageCounter < pageContainers.length) {
-    await delay(1000);
-    pageContainers[pageCounter].scrollIntoView();
-    const paraDivs = await waitForElm(
-      ".zw-paragraph",
-      true,
-      pageContainers[pageCounter]
-    );
-    paraDivs.forEach((paraDiv) => textContent.push(paraDiv.textContent));
-    pageContainers = await waitForElm(".zw-pagecontainer");
-    pageCounter++;
-  }
+  // const testScript = document.createElement("script");
+  // testScript.textContent = `console.log('hello')`;
+  // document.body.appendChild(testScript);
+  await delay(10000);
+  const textContent = docProps.content.content;
 
-  textContent = textContent
-    .map((para) => para.trim())
-    .filter((para) => para != "");
-  console.log(textContent);
+  // console.log("hi");
+  // let textContent = [];
+  // let pageContainers = await waitForElm(".zw-pagecontainer");
+  // if (pageContainers) {
+  //   await waitForElm(".zw-paragraph", true);
+  // }
+  // let pageCounter = 0;
+  // while (pageCounter < pageContainers.length) {
+  //   await delay(1000);
+  //   pageContainers[pageCounter].scrollIntoView();
+  //   const paraDivs = await waitForElm(
+  //     ".zw-paragraph",
+  //     true,
+  //     pageContainers[pageCounter]
+  //   );
+  //   paraDivs.forEach((paraDiv) => textContent.push(paraDiv.textContent));
+  //   pageContainers = await waitForElm(".zw-pagecontainer");
+  //   pageCounter++;
+  // }
+
+  // textContent = textContent
+  //   .map((para) => para.trim())
+  //   .filter((para) => para != "");
+  // console.log(textContent);
 
   const response = await chrome.runtime.sendMessage({
     type: "writer-content",

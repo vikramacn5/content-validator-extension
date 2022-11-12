@@ -349,30 +349,41 @@ const checkIsLink = function (e) {
     btnsWrapper.appendChild(checkBtn);
 };
 
-const receiveContent = function () {
-  return new Promise(async function (resolve, reject) {
-    chrome.runtime.sendMessage({
-      type: "writer-url",
-      writerUrl: textArea.value,
-    });
-    // console.log(writerContent);
-    chrome.runtime.onMessage.addListener(function (
-      message,
-      sender,
-      sendResponse
-    ) {
-      resolve(message);
-      console.log(sender);
-      sendResponse("textContent recieved");
-    });
-  });
-};
+// const receiveContent = function () {
+//   return new Promise(async function (resolve, reject) {
+//     chrome.runtime.sendMessage({
+//       type: "writer-url",
+//       writerUrl: textArea.value,
+//     });
+//     // console.log(writerContent);
+//     chrome.runtime.onMessage.addListener(function (
+//       message,
+//       sender,
+//       sendResponse
+//     ) {
+//       resolve(message);
+//       console.log(sender);
+//       sendResponse("textContent recieved");
+//     });
+//   });
+// };
 
 const fetchWriterContent = async function () {
-  chrome.runtime.sendMessage({
+  const response = await chrome.runtime.sendMessage({
     type: "writer-url",
     writerUrl: textArea.value,
   });
+
+  console.log("from popup");
+  const cleanedContent = response.content
+    .split("\n")
+    .map((text) => text.replace(/[^\x20-\x7E]/g, ""))
+    .map((text) => text.trim())
+    .filter((text) => text != "")
+    .join("\n");
+  console.log(cleanedContent);
+
+  textArea.value = cleanedContent;
 };
 
 const addWriterContentToTextarea = function (writerContentArray) {
