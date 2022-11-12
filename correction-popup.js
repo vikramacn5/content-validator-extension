@@ -28,17 +28,27 @@
 
 // let isCorrectedTextShowing = false;
 
+let currentCorrectionPopup;
+
 const removeContentTip = function () {
   const bodyEl = document.querySelector("body");
   const contentTip = document.querySelector(".content-tip");
-  if (contentTip) bodyEl.removeChild(contentTip);
+  if (contentTip) {
+    bodyEl.removeChild(contentTip);
+    isCorrectionPopupOpen = false;
+  }
 };
 
 const addCorrectionPopup = function (correctText, pageText) {
+  if (isCorrectionPopupOpen && currentCorrectionPopup === this) {
+    return;
+  }
   console.log("from handler", { pageText }, { correctText });
   let isCorrectedTextShowing = false;
   const correctElement = diffCheck(pageText, correctText);
   removeContentTip();
+  isCorrectionPopupOpen = true;
+  currentCorrectionPopup = this;
   console.log(this.getBoundingClientRect(), this, correctElement);
 
   const elementPosition = this.getBoundingClientRect();

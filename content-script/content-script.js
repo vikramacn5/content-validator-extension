@@ -5,6 +5,7 @@ let isEditMode = false;
 let isInfoMode = false;
 let isResultsMode = false;
 let isResultWindowHalf = false;
+let isCorrectionPopupOpen = false;
 
 let resultsObject;
 
