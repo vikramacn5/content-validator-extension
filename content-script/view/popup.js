@@ -143,16 +143,16 @@ const switchPopup = function (shouldOpen) {
       body.appendChild(popupDiv);
     closeTimeout && clearTimeout(closeTimeout);
     setTimeout(() => {
-      popupDiv.style.width = isEditMode
-        ? "96%"
-        : isInfoMode
-        ? "505px"
-        : "350px";
-      popupDiv.style.height = isEditMode
-        ? "96%"
-        : isInfoMode
-        ? "274px"
-        : "300px";
+      popupDiv.style.width =
+        isEditMode || isResultsMode ? "96%" : isInfoMode ? "505px" : "350px";
+      popupDiv.style.height =
+        isEditMode || (isResultsMode && !isResultWindowHalf)
+          ? "96%"
+          : isResultsMode && isResultWindowHalf
+          ? "60%"
+          : isInfoMode
+          ? "274px"
+          : "300px";
       popupDiv.style.borderRadius = "10px";
       // btnsWrapper.style.visibility = "visible";
       // btnsWrapper.style.opacity = 1;
@@ -169,6 +169,8 @@ const switchPopup = function (shouldOpen) {
       highlightInfo.style.opacity = 1;
       popupInfo.style.visibility = "visible";
       popupInfo.style.opacity = 1;
+      resultDiv.style.opacity = 1;
+      resultDiv.style.visibility = "visible";
     }, 600);
   } else {
     popupDiv.style.width = "0px";
@@ -182,6 +184,11 @@ const switchPopup = function (shouldOpen) {
     highlightInfo.style.opacity = 0;
     popupInfo.style.visibility = "hidden";
     popupInfo.style.opacity = 0;
+    resultDiv.style.opacity = 0;
+    resultDiv.style.visibility = "hidden";
+    iconDiv.style.opacity = 0;
+    iconDiv.style.visibility = "hidden";
+    popupDiv.contains(iconDiv) && popupDiv.removeChild(iconDiv);
     closeTimeout = setTimeout(() => {
       !shouldOpen && body.removeChild(popupDiv);
     }, 600);
@@ -193,6 +200,7 @@ const showTextareaAndButtons = function () {
   btnsWrapper.style.opacity = "0";
   textArea.style.visibility = "hidden";
   textArea.style.opacity = 0;
+  textArea.style.fontSize = isEditMode ? "17px" : "15px";
   editBtn.textContent = isEditMode ? "Exit full screen" : "Edit in full screen";
   popupDiv.style.width = isEditMode ? "96%" : "350px";
   popupDiv.style.height = isEditMode ? "96%" : "300px";
@@ -210,6 +218,7 @@ const goEditMode = function () {
 
 const showInfo = function () {
   isInfoMode = true;
+  isResultsMode = false;
   popupDiv.contains(textAreaWrapper) && popupDiv.removeChild(textAreaWrapper);
   popupDiv.contains(resultDiv) && popupDiv.removeChild(resultDiv);
   // textArea.parentElement.removeChild(textArea);
@@ -247,6 +256,7 @@ const showInfo = function () {
 const showResult = function () {
   console.log("results");
   isInfoMode = false;
+  isResultsMode = true;
   popupDiv.style.width = "96%";
   popupDiv.style.height = isResultWindowHalf ? "60%" : "96%";
   popupDiv.removeChild(highlightInfo);
@@ -272,6 +282,7 @@ const showResult = function () {
 const backToEdit = function () {
   console.log("edit mode");
   isInfoMode = false;
+  isResultsMode = false;
   popupDiv.contains(highlightInfo) && popupDiv.removeChild(highlightInfo);
   popupDiv.contains(popupInfo) && popupDiv.removeChild(popupInfo);
   popupDiv.contains(resultDiv) && popupDiv.removeChild(resultDiv);
@@ -337,10 +348,13 @@ const resizeResultWindow = function () {
 
 const checkIsLink = function (e) {
   const regex =
-    /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
-  const result = regex.test(e.target.value);
+    /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
+  const url = e.target.value.split("\n");
+  const result = regex.test(url[0]);
   console.log(result);
   result &&
+    url.length === 1 &&
+    btnsWrapper.contains(checkBtn) &&
     btnsWrapper.removeChild(checkBtn) &&
     btnsWrapper.appendChild(fetchBtn);
   !result &&
@@ -384,6 +398,8 @@ const fetchWriterContent = async function () {
   console.log(cleanedContent);
 
   textArea.value = cleanedContent;
+  btnsWrapper.removeChild(fetchBtn);
+  btnsWrapper.appendChild(checkBtn);
 };
 
 const addWriterContentToTextarea = function (writerContentArray) {

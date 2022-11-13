@@ -74,6 +74,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
         },
       });
 
+      chrome.tabs.remove(tabInfo.id);
       console.log(injectionResult[0].result);
       sendResponse(injectionResult[0].result);
     };
