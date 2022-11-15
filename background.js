@@ -51,8 +51,17 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   if (message.type === "writer-url") {
     console.log(message.writerUrl, sender);
     const injectFunction = function () {
-      console.log(docProps.content.content);
-      return docProps.content;
+      try {
+        if (docProps && docProps.content) {
+          console.log(docProps?.content?.content);
+          return docProps.content;
+        } else {
+          return null;
+        }
+      } catch (e) {
+        console.log(e.message);
+        return null;
+      }
       // setTimeout(() => {
       //   console.log(docProps);
       //   return docProps;
@@ -74,7 +83,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
         },
       });
 
-      chrome.tabs.remove(tabInfo.id);
+      chrome.tabs.remove(tabInfo.id).catch((e) => console.log(e.message));
       console.log(injectionResult[0].result);
       sendResponse(injectionResult[0].result);
     };

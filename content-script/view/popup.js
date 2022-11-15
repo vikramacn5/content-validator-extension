@@ -22,6 +22,7 @@ fetchStatusDiv.style.cssText = `
   height: 100%;
   width: 100%;
   display: grid;
+  align-content: center;
   place-items: center;
   background-color: #222;
   opacity: 0.9;
@@ -406,12 +407,23 @@ const fetchWriterContent = async function () {
   });
 
   console.log("from popup");
+  if (!response) {
+    const fetchStatusBackBtn = document.createElement("button");
+    fetchStatusBackBtn.textContent = "Go back";
+    fetchStatusBackBtn.classList.add("extn-cv-btn");
+    fetchStatusBackBtn.addEventListener("click", function () {
+      popupDiv.removeChild(fetchStatusDiv);
+    });
+    fetchStatusDiv.innerHTML = `<p style = "color: red;">Fetching content failed! Please check the link</p>`;
+    fetchStatusDiv.appendChild(fetchStatusBackBtn);
+    return;
+  }
   const cleanedContent = response.content
     .split("\n")
     .map((text) => text.replace(/[^\x20-\x7E]/g, ""))
     .map((text) => text.trim())
     .filter((text) => text != "")
-    .join("\n");
+    .join("\n\n");
   console.log(cleanedContent);
 
   textArea.value = cleanedContent;
