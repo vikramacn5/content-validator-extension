@@ -115,8 +115,8 @@ const addCorrectionPopup = function (correctText, pageText) {
     background-color: rgb(51, 51, 51);
     position: absolute;
     top: ${topPosition}px;
-    transform:translateY(-110%);
-    left: ${elementPosition.left}px;
+    transform:translate(-50%, -110%);
+    left: ${(elementPosition.left + elementPosition.right) / 2}px;
     padding: 0 0 20px;
     z-index: 10000;
     border-radius: 15px;
@@ -135,7 +135,9 @@ const addCorrectionPopup = function (correctText, pageText) {
     clip-path: polygon(0 0, 100% 0, 50% 55%);
     background-color: rgb(51, 51, 51);
     transform: translateX(0);
-    left: 5px;
+    left: 0;
+    right: 0;
+    margin: auto;
   `;
 
   optionsWrapper.style.cssText = `
@@ -179,14 +181,34 @@ const addCorrectionPopup = function (correctText, pageText) {
     .getBoundingClientRect().width;
   const contentTipHeight = contentTipPosition.height;
   const contentTipRight = contentTipPosition.right;
+  const contentTipLeft = contentTipPosition.left;
 
+  console.log(
+    { documentWidth },
+    { contentTipHeight },
+    { contentTipRight },
+    { contentTipLeft }
+  );
+
+  const translateX =
+    contentTipLeft < 0 || contentTipRight > documentWidth ? 0 : -50;
+
+  const translateY = topPosition < contentTipHeight ? 0 : -110;
+
+  contentTip.style.transform = `translate(${translateX}%, ${translateY}%)`;
   if (topPosition < contentTipHeight) {
-    contentTip.style.transform = "translateY(0)";
+    // contentTip.style.transform = `translate(${translateX}%, ${translateY}%)`;
     contentTip.style.top = "0px";
   }
   if (contentTipRight > documentWidth) {
     contentTip.style.left = "auto";
     contentTip.style.right = "0px";
+    arrow.style.transform = `translateX(${contentTipRight - documentWidth}px)`;
+  }
+  if (contentTipLeft < 0) {
+    contentTip.style.left = "0px";
+    arrow.style.transform = `translateX(${contentTipLeft}px)`;
+    // contentTip.style.transform = 0;
   }
   contentTip.style.visibility = "visible";
 };
