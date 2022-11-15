@@ -128,15 +128,14 @@ const addCorrectionPopup = function (correctText, pageText) {
 
   arrow.innerHTML = "&nbsp;";
   arrow.style.cssText = `
-    bottom: -10px;
+    bottom: -25px;
     position: absolute;
-    height: 20px;
-    width: 20px;
+    height: 30px;
+    width: 30px;
+    clip-path: polygon(0 0, 100% 0, 50% 55%);
     background-color: rgb(51, 51, 51);
-    transform: rotate(45deg);
-    left: 0;
-    right: 0;
-    margin: auto;
+    transform: translateX(0);
+    left: 5px;
   `;
 
   optionsWrapper.style.cssText = `
