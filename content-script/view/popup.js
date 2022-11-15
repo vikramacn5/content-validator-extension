@@ -15,6 +15,21 @@ popupDiv.style.cssText = `
   transition: height 0.6s ease, width 0.6s ease, border-radius 0.6s ease;
 `;
 
+const fetchStatusDiv = document.createElement("div");
+fetchStatusDiv.classList.add("extn-cv-fetch-status-wrapper");
+fetchStatusDiv.style.cssText = `
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  display: grid;
+  place-items: center;
+  background-color: #222;
+  opacity: 0.9;
+  color: #fff;
+  padding: 30px;
+  text-align: center;
+`;
+
 const textArea = document.createElement("textarea");
 textArea.classList.add("extn-cv-textarea");
 textArea.setAttribute("data-gramm", "false");
@@ -383,6 +398,8 @@ const checkIsLink = function (e) {
 // };
 
 const fetchWriterContent = async function () {
+  popupDiv.appendChild(fetchStatusDiv);
+  fetchStatusDiv.innerHTML = `<p style = "margin-bottom: 20px;">Fetching content, please wait...</p>`;
   const response = await chrome.runtime.sendMessage({
     type: "writer-url",
     writerUrl: textArea.value,
@@ -400,6 +417,7 @@ const fetchWriterContent = async function () {
   textArea.value = cleanedContent;
   btnsWrapper.removeChild(fetchBtn);
   btnsWrapper.appendChild(checkBtn);
+  popupDiv.removeChild(fetchStatusDiv);
 };
 
 const addWriterContentToTextarea = function (writerContentArray) {
