@@ -32,7 +32,7 @@ let currentCorrectionPopup;
 
 const removeContentTip = function () {
   const bodyEl = document.querySelector("body");
-  const contentTip = document.querySelector(".content-tip");
+  const contentTip = document.querySelector(".extn-cv-content-tip");
   if (contentTip) {
     bodyEl.removeChild(contentTip);
     isCorrectionPopupOpen = false;
@@ -61,8 +61,8 @@ const addCorrectionPopup = function (correctText, pageText) {
   const correctCorrectionOption = document.createElement("span");
   const clipboardCopy = document.createElement("span");
 
-  contentTip.classList.add("content-tip");
-  arrow.classList.add("arrow");
+  contentTip.classList.add("extn-cv-content-tip");
+  arrow.classList.add("extn-cv-arrow");
   optionsWrapper.classList.add("extn-cv-tip-options-wrapper");
   correctCorrectionOption.classList.add(
     "extn-cv-tip-correct-correction-option"

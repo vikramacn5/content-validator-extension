@@ -14,7 +14,7 @@ const mainFunctionalityInit = function (content) {
 
   const body = document.querySelector("body");
   body.addEventListener("click", function (e) {
-    !e.target.closest(".content-tip") && removeContentTip();
+    !e.target.closest(".extn-cv-content-tip") && removeContentTip();
   });
 
   // const content = `

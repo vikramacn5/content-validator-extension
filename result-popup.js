@@ -77,6 +77,8 @@ const createDynamicInnerContent = function (isMajor) {
       if (!isResultWindowHalf) {
         resizeResultWindow();
       }
+      // this.style.backgroundColor = "lightblue";
+      this.scrollIntoView();
       contentObject.pageElement.scrollIntoView({
         behavior: "smooth",
         block: "end",
