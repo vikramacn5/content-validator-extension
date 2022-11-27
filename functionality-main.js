@@ -122,9 +122,9 @@ const mainFunctionalityInit = function (content) {
           matchRange * 100
         ).toFixed(2)} percentage match range`;
         allTextElements[j].style.backgroundColor = "#e0c552";
-        // const diffElement = diffCheck(text2, text1);
+        const correctionElement = diffCheck(text2, text1);
         const hoverHandler = function () {
-          addCorrectionPopup.call(this, text1, text2);
+          addCorrectionPopup.call(this, text1, text2, correctionElement);
         };
         matchedElements.push({ el: allTextElements[j], hoverHandler });
         allTextElements[j].addEventListener("mouseenter", hoverHandler);
@@ -134,6 +134,7 @@ const mainFunctionalityInit = function (content) {
           pageElement: allTextElements[j],
           pageContent: text2,
           writerContent: text1,
+          correctionElement,
           matchRange,
         });
         break;
@@ -142,9 +143,9 @@ const mainFunctionalityInit = function (content) {
           matchRange * 100
         ).toFixed(2)} percentage match range`;
         allTextElements[j].style.backgroundColor = "#ff7070";
-        // const diffElement = diffCheck(text2, text1);
+        const correctionElement = diffCheck(text2, text1);
         const hoverHandler = function () {
-          addCorrectionPopup.call(this, text1, text2);
+          addCorrectionPopup.call(this, text1, text2, correctionElement);
         };
         matchedElements.push({ el: allTextElements[j], hoverHandler });
         allTextElements[j].addEventListener("mouseenter", hoverHandler);
@@ -154,6 +155,7 @@ const mainFunctionalityInit = function (content) {
           pageElement: allTextElements[j],
           pageContent: text2,
           writerContent: text1,
+          correctionElement,
           matchRange,
         });
         break;

@@ -39,13 +39,13 @@ const removeContentTip = function () {
   }
 };
 
-const addCorrectionPopup = function (correctText, pageText) {
+const addCorrectionPopup = function (correctText, pageText, correctElement) {
   if (isCorrectionPopupOpen && currentCorrectionPopup === this) {
     return;
   }
   console.log("from handler", { pageText }, { correctText });
   let isCorrectedTextShowing = false;
-  const correctElement = diffCheck(pageText, correctText);
+  // const correctElement = diffCheck(pageText, correctText);
   removeContentTip();
   isCorrectionPopupOpen = true;
   currentCorrectionPopup = this;

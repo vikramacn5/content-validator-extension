@@ -220,7 +220,8 @@ p.extn-cv-popup-red {
   color: #fff;
 }
 
-.extn-cv-sub-page-content:hover {
+.extn-cv-sub-page-content:hover,
+.extn-cv-sub-writer-content:hover {
   color: #fff;
   cursor: pointer;
 }

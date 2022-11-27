@@ -285,10 +285,10 @@ const showResult = function () {
   btnsWrapper.insertAdjacentElement("afterbegin", minimizeBtn);
   setTimeout(() => {
     popupDiv.insertAdjacentElement("afterbegin", getResults());
-    document.querySelectorAll(".extn-cv-sub-result-wrapper").forEach((node) => {
-      node.style.height = node.clientHeight + "px";
-      node.dataset.height = node.clientHeight;
-    });
+    // document.querySelectorAll(".extn-cv-sub-result-wrapper").forEach((node) => {
+    //   node.style.height = node.clientHeight + "px";
+    //   node.dataset.height = node.clientHeight;
+    // });
 
     btnsWrapper.style.opacity = 1;
     btnsWrapper.style.visibility = "visible";

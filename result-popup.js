@@ -3,10 +3,27 @@ function subResultToggleHandler() {
   const subResultContainer = this.parentElement.querySelector(
     ".extn-cv-sub-result-wrapper"
   );
+
+  const getInnerDivHeight = function () {
+    const innerDiv = subResultContainer.firstElementChild;
+    const innerDivMargin = parseInt(
+      window.getComputedStyle(innerDiv).marginBottom
+    );
+    return (
+      parseInt(innerDiv.getBoundingClientRect().height + innerDivMargin) + "px"
+    );
+  };
+
   if (this.classList.contains("close")) {
-    subResultContainer.style.height = 0;
+    subResultContainer.style.height = getInnerDivHeight();
+    setTimeout(function () {
+      subResultContainer.style.height = 0;
+    }, 100);
   } else {
-    subResultContainer.style.height = subResultContainer.dataset.height + "px";
+    subResultContainer.style.height = getInnerDivHeight();
+    setTimeout(function () {
+      subResultContainer.style.height = "auto";
+    }, 500);
   }
 }
 
@@ -77,21 +94,46 @@ const createDynamicInnerContent = function (isMajor) {
       if (!isResultWindowHalf) {
         resizeResultWindow();
       }
-      // this.style.backgroundColor = "lightblue";
-      this.scrollIntoView();
-      contentObject.pageElement.scrollIntoView({
+
+      const { top: scrollTop } = this.closest("div").getBoundingClientRect();
+      const resultWrapper = this.closest(".extn-cv-result-wrapper");
+      resultWrapper.scrollTo({
+        top: resultWrapper.scrollTop + scrollTop - 100,
         behavior: "smooth",
-        block: "end",
+      });
+
+      const pageElementPosition =
+        contentObject.pageElement.getBoundingClientRect();
+      window.scrollTo({
+        top: window.scrollY + pageElementPosition.bottom - window.innerHeight,
+        behavior: "smooth",
       });
     });
     subResultTabContentWrapper.appendChild(subResultPageContent);
 
+    const subResultWriterContent = document.createElement("p");
+    subResultWriterContent.classList.add(
+      "extn-cv-sub-writer-content",
+      "extn-cv-result-corrected-content"
+    );
+    subResultWriterContent.textContent = contentObject.writerContent;
+    subResultWriterContent.addEventListener("click", function () {
+      if (this.classList.contains("extn-cv-result-corrected-content")) {
+        this.innerHTML =
+          contentObject.correctionElement.querySelector(
+            ".virtual-content"
+          ).innerHTML;
+      } else {
+        this.textContent = contentObject.writerContent;
+      }
+      this.classList.toggle("extn-cv-result-corrected-content");
+    });
+
+    subResultTabContentWrapper.appendChild(subResultWriterContent);
+
     subResultTabContentWrapper.insertAdjacentHTML(
       "beforeend",
-      `
-      <p>${contentObject.writerContent}</p>
-      <p>${(contentObject.matchRange * 100).toFixed(1)}%</p>
-    `
+      `<p>${(contentObject.matchRange * 100).toFixed(1)}%</p>`
     );
 
     subResultWrapperInner.appendChild(subResultTabContentWrapper);
@@ -103,9 +145,9 @@ const createDynamicInnerContent = function (isMajor) {
 const createSubResultHeading = function (isMajor) {
   const subResultHeading = document.createElement("h3");
   subResultHeading.classList.add("extn-cv-sub-result-heading");
-  subResultHeading.textContent = isMajor
-    ? "Contents with match range 70% or more"
-    : "Contents with match range 90% or more";
+  subResultHeading.innerHTML = isMajor
+    ? `Contents with match range 70% or more <span style = "color: #ff7070;">(Contents with red background)</span>`
+    : `Contents with match range 90% or more <span style = "color: #e0c552;">(Contents with yellow background)</span>`;
   return subResultHeading;
 };
 
