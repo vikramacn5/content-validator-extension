@@ -27,6 +27,7 @@
         "./content-script/view/popup.js",
         "./content-script/content-script.js",
         "./result-popup.js",
+        "./diff-match-patch.js",
         "./fast-diff.js",
         "./correction-popup.js",
         "./functionality-main.js",
@@ -43,7 +44,7 @@
   "web_accessible_resources": [
     {
       "resources": ["img/cv-logo.png"],
-      "matches": ["https://*/*"]
+      "matches": ["http://*/*", "https://*/*"]
     }
   ]
 }

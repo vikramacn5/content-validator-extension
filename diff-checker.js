@@ -2,10 +2,10 @@
 
 // import { diff } from "./fast-diff.js";
 
-// export const diffCheck = function (oldStr, newStr) {
+// export const diffCheck = function (pageContent, writerContent) {
 //   let span = null;
 
-//   const diff = Diff.diffChars(oldStr, newStr),
+//   const diff = Diff.diffChars(pageContent, writerContent),
 //     fragment = document.createElement("span");
 
 //   diff.forEach((part) => {
@@ -20,11 +20,13 @@
 //   return fragment;
 // };
 
-const diffCheck = function (oldStr, newStr) {
+const dmp = new diff_match_patch();
+const diffCheck = function (pageContent, writerContent) {
   let span = "null";
+  const result = dmp.diff_main(pageContent, writerContent);
 
-  var result = diff(oldStr, newStr);
-  console.log(result);
+  dmp.diff_cleanupSemantic(result);
+  // const result = diff(pageContent, writerContent);
 
   const fragment = document.createElement("span");
   fragment.classList.add("virtual-content");
@@ -37,8 +39,7 @@ const diffCheck = function (oldStr, newStr) {
   `;
 
   result.forEach((part) => {
-    const color =
-      part[0] === 1 ? "#09d909" : part[0] === -1 ? "red" : "currentcolor";
+    const color = part[0] === 1 ? "#09d909" : part[0] === -1 ? "red" : "#bbb";
     // const background =
     //   part[0] === 1 ? "#cee9ce" : part[0] === -1 ? "#ffbaba" : "transparent";
     span = document.createElement("span");
