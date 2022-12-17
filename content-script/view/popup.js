@@ -420,7 +420,12 @@ const fetchWriterContent = async function () {
   }
   const cleanedContent = response.content
     .split("\n")
-    .map((text) => text.replace(/[^\x20-\x7E]/g, "").replaceAll("’", "'"))
+    .map((text) =>
+      text
+        .trim()
+        .replace(/[^ -~—’]/g, "")
+        .replaceAll("’", "'")
+    )
     .map((text) => text.trim())
     .filter((text) => text != "")
     .join("\n\n");
