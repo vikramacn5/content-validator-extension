@@ -91,16 +91,19 @@ const createDynamicInnerContent = function (isMajor) {
     subResultPageContent.classList.add("extn-cv-sub-page-content");
     subResultPageContent.textContent = contentObject.pageContent;
     subResultPageContent.addEventListener("click", function () {
+      const { top: scrollTop } = this.closest("div").getBoundingClientRect();
+      const resultWrapper = this.closest(".extn-cv-result-wrapper");
+      console.log(isResultWindowHalf);
+      if (!isResultWindowHalf) {
+        resultWrapper.scrollTo({
+          top: resultWrapper.scrollTop + scrollTop - 100,
+          behavior: "smooth",
+        });
+      }
+
       if (!isResultWindowHalf) {
         resizeResultWindow();
       }
-
-      const { top: scrollTop } = this.closest("div").getBoundingClientRect();
-      const resultWrapper = this.closest(".extn-cv-result-wrapper");
-      resultWrapper.scrollTo({
-        top: resultWrapper.scrollTop + scrollTop - 100,
-        behavior: "smooth",
-      });
 
       const pageElementPosition =
         contentObject.pageElement.getBoundingClientRect();
