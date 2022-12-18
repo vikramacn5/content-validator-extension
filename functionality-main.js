@@ -50,7 +50,7 @@ const mainFunctionalityInit = function (content) {
 
   const refinedContentArray = [];
   content.split("\n").forEach((text) => {
-    const trimmedText = text.trim();
+    const trimmedText = text.trim().replaceAll("’", "'");
     trimmedText && refinedContentArray.push(trimmedText);
   });
 

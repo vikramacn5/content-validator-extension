@@ -39,10 +39,18 @@ const diffCheck = function (pageContent, writerContent) {
   // `;
 
   result.forEach((part) => {
-    const color = part[0] === 1 ? "#09d909" : part[0] === -1 ? "red" : "#bbb";
+    const bgColor =
+      part[0] === 1
+        ? "rgba(9, 217, 9, 0.5)"
+        : part[0] === -1
+        ? "rgba(255, 0, 0, 0.5)"
+        : "transparent";
+    const color = part[0] === 1 || part[0] === -1 ? "#fff" : "#bbb";
+    // const color = part[0] === 1 ? "#09d909" : part[0] === -1 ? "red" : "#bbb";
     // const background =
     //   part[0] === 1 ? "#cee9ce" : part[0] === -1 ? "#ffbaba" : "transparent";
     span = document.createElement("span");
+    span.style.backgroundColor = bgColor;
     span.style.color = color;
     if (part[1] === " ")
       span.style.background = `linear-gradient(to bottom, transparent 12%, ${color} 12%, ${color} 88%, transparent 88%)`;
