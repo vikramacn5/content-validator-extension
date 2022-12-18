@@ -65,7 +65,12 @@ const mainFunctionalityInit = function (content) {
     return all;
   };
 
-  const initialNode = document.querySelector(".template-inner");
+  const initialNode =
+    document.querySelector(".template-inner") ??
+    document.querySelector(".zw-template-inner") ??
+    document.querySelector(".field-body") ??
+    document.querySelector("main") ??
+    document.querySelector("body");
 
   const allTextNodes = textNodesUnder(initialNode);
 
@@ -115,16 +120,25 @@ const mainFunctionalityInit = function (content) {
       if (matchRange === 1) {
         containsContent = true;
         matchedElements.push({ el: allTextElements[j] });
-        allTextElements[j].style.backgroundColor = "lightgreen";
+        allTextElements[j].classList.add("extn-cv-100mr");
+        // allTextElements[j].style.backgroundColor = "lightgreen";
         break;
       } else if (matchRange >= 0.9) {
         containsContent = `${text2}, Slight change with ${(
           matchRange * 100
         ).toFixed(2)} percentage match range`;
-        allTextElements[j].style.backgroundColor = "#e0c552";
+        allTextElements[j].classList.add("extn-cv-gt90mr");
+        // allTextElements[j].style.backgroundColor = "#e0c552";
         const correctionElement = diffCheck(text2, text1);
+        const correctionHTML = correctionElement.firstElementChild.innerHTML;
         const hoverHandler = function () {
-          addCorrectionPopup.call(this, text1, text2, correctionElement);
+          addCorrectionPopup.call(
+            this,
+            text1,
+            correctionHTML,
+            text2,
+            correctionElement
+          );
         };
         matchedElements.push({ el: allTextElements[j], hoverHandler });
         allTextElements[j].addEventListener("mouseenter", hoverHandler);
@@ -142,10 +156,18 @@ const mainFunctionalityInit = function (content) {
         containsContent = `${text2}, A lot of changes with ${(
           matchRange * 100
         ).toFixed(2)} percentage match range`;
-        allTextElements[j].style.backgroundColor = "#ff7070";
+        allTextElements[j].classList.add("extn-cv-gt70mr");
+        // allTextElements[j].style.backgroundColor = "#ff7070";
         const correctionElement = diffCheck(text2, text1);
+        const correctionHTML = correctionElement.firstElementChild.innerHTML;
         const hoverHandler = function () {
-          addCorrectionPopup.call(this, text1, text2, correctionElement);
+          addCorrectionPopup.call(
+            this,
+            text1,
+            correctionHTML,
+            text2,
+            correctionElement
+          );
         };
         matchedElements.push({ el: allTextElements[j], hoverHandler });
         allTextElements[j].addEventListener("mouseenter", hoverHandler);

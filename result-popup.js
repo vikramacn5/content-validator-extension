@@ -96,7 +96,7 @@ const createDynamicInnerContent = function (isMajor) {
       console.log(isResultWindowHalf);
       if (!isResultWindowHalf) {
         resultWrapper.scrollTo({
-          top: resultWrapper.scrollTop + scrollTop - 100,
+          top: resultWrapper.scrollTop + scrollTop - 200,
           behavior: "smooth",
         });
       }
@@ -111,6 +111,18 @@ const createDynamicInnerContent = function (isMajor) {
         top: window.scrollY + pageElementPosition.bottom - window.innerHeight,
         behavior: "smooth",
       });
+
+      const elWithAnimateBG = document.querySelector(
+        ".extn-cv-background-animate"
+      );
+      elWithAnimateBG &&
+        elWithAnimateBG.classList.remove("extn-cv-background-animate");
+      contentObject.pageElement.classList.add("extn-cv-background-animate");
+      setTimeout(function () {
+        contentObject.pageElement.classList.remove(
+          "extn-cv-background-animate"
+        );
+      }, 2000);
     });
     subResultTabContentWrapper.appendChild(subResultPageContent);
 
@@ -122,10 +134,9 @@ const createDynamicInnerContent = function (isMajor) {
     subResultWriterContent.textContent = contentObject.writerContent;
     subResultWriterContent.addEventListener("click", function () {
       if (this.classList.contains("extn-cv-result-corrected-content")) {
-        this.innerHTML =
-          contentObject.correctionElement.querySelector(
-            ".virtual-content"
-          ).innerHTML;
+        this.innerHTML = contentObject.correctionElement.querySelector(
+          ".extn-cv-virtual-content"
+        ).innerHTML;
       } else {
         this.textContent = contentObject.writerContent;
       }

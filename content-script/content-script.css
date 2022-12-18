@@ -24,6 +24,68 @@
 
 .extn-cv-popup {
   /* animation: popOpen 0.8s ease; */
+  z-index: 100000;
+}
+
+.extn-cv-popup *,
+.extn-cv-popup *::before,
+.extn-cv-popup *::after {
+  box-sizing: border-box;
+}
+
+.extn-cv-100mr {
+  background-color: rgb(114, 238, 144);
+}
+
+.extn-cv-gt90mr {
+  background-color: rgb(224, 197, 82);
+}
+
+.extn-cv-gt70mr {
+  background-color: rgb(255, 112, 112);
+}
+
+@keyframes background-animate-yellow {
+  0% {
+    background-color: rgba(224, 197, 82, 1);
+  }
+  25% {
+    background-color: rgba(224, 197, 82, 0);
+  }
+  50% {
+    background-color: rgba(224, 197, 82, 1);
+  }
+  75% {
+    background-color: rgba(224, 197, 82, 0);
+  }
+  100% {
+    background-color: rgba(224, 197, 82, 1);
+  }
+}
+
+@keyframes background-animate-red {
+  0% {
+    background-color: rgba(255, 112, 112, 1);
+  }
+  25% {
+    background-color: rgba(255, 112, 112, 0);
+  }
+  50% {
+    background-color: rgba(255, 112, 112, 1);
+  }
+  75% {
+    background-color: rgba(255, 112, 112, 0);
+  }
+  100% {
+    background-color: rgba(255, 112, 112, 1);
+  }
+}
+
+.extn-cv-gt90mr.extn-cv-background-animate {
+  animation: background-animate-yellow 2s linear 0.5s;
+}
+.extn-cv-gt70mr.extn-cv-background-animate {
+  animation: background-animate-red 2s linear 0.5s;
 }
 
 .extn-cv-textarea::-webkit-scrollbar {
@@ -78,23 +140,31 @@
   background-color: #226e22;
 } */
 
-.virtual-content::-webkit-scrollbar {
+.extn-cv-virtual-content {
+  display: inline-block;
+  max-height: 180px;
+  width: 400px;
+  overflow-y: scroll;
+  padding: 0 30px;
+}
+
+.extn-cv-virtual-content::-webkit-scrollbar {
   width: 8px;
 }
-.virtual-content::-webkit-scrollbar-track {
+.extn-cv-virtual-content::-webkit-scrollbar-track {
   background: #333;
   border-radius: 10px;
 }
 
-.virtual-content::-webkit-scrollbar-thumb {
+.extn-cv-virtual-content::-webkit-scrollbar-thumb {
   background: #666;
   border-radius: 10px;
 }
-.virtual-content::-webkit-scrollbar-thumb:hover {
+.extn-cv-virtual-content::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
 
-.virtual-content p {
+.extn-cv-virtual-content p {
   margin: 0;
 }
 
@@ -135,7 +205,7 @@
 }
 
 p.extn-cv-popup-green {
-  color: green;
+  color: #02a102;
 }
 p.extn-cv-popup-red {
   color: red;

@@ -9,7 +9,7 @@ popupDiv.style.cssText = `
   height: 0px;
   width: 0px;
   background-color: #222;
-  z-index: 1000;
+  z-index: 100000;
   border-radius: 100px;
   overflow: hidden;
   transition: height 0.6s ease, width 0.6s ease, border-radius 0.6s ease;

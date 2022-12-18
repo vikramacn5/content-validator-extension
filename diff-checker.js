@@ -29,14 +29,14 @@ const diffCheck = function (pageContent, writerContent) {
   // const result = diff(pageContent, writerContent);
 
   const fragment = document.createElement("span");
-  fragment.classList.add("virtual-content");
-  fragment.style.cssText = `
-    display: inline-block;
-    max-height: 180px;
-    width: 400px;
-    overflow-y: scroll;
-    padding: 0 30px;
-  `;
+  fragment.classList.add("extn-cv-virtual-content");
+  // fragment.style.cssText = `
+  //   display: inline-block;
+  //   max-height: 180px;
+  //   width: 400px;
+  //   overflow-y: scroll;
+  //   padding: 0 30px;
+  // `;
 
   result.forEach((part) => {
     const color = part[0] === 1 ? "#09d909" : part[0] === -1 ? "red" : "#bbb";

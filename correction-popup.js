@@ -39,11 +39,23 @@ const removeContentTip = function () {
   }
 };
 
-const addCorrectionPopup = function (correctText, pageText, correctElement) {
+const addCorrectionPopup = function (
+  correctText,
+  correctionHTML,
+  pageText,
+  correctElement
+) {
   if (isCorrectionPopupOpen && currentCorrectionPopup === this) {
     return;
   }
-  console.log("from handler", { pageText }, { correctText });
+  correctElement.firstElementChild.innerHTML = correctionHTML;
+  console.log(
+    "from handler",
+    { pageText },
+    { correctText },
+    { correctionHTML },
+    { correctElement }
+  );
   let isCorrectedTextShowing = false;
   // const correctElement = diffCheck(pageText, correctText);
   removeContentTip();
@@ -89,8 +101,10 @@ const addCorrectionPopup = function (correctText, pageText, correctElement) {
   //   console.log(correctText);
   // });
 
-  const virtualContentEl = correctElement.querySelector(".virtual-content");
-  const correctionText = virtualContentEl.innerHTML;
+  const virtualContentEl = correctElement.querySelector(
+    ".extn-cv-virtual-content"
+  );
+  // const correctionText = virtualContentEl.innerHTML;
 
   correctCorrectionOption.addEventListener("click", function () {
     this.textContent = !isCorrectedTextShowing
@@ -100,9 +114,10 @@ const addCorrectionPopup = function (correctText, pageText, correctElement) {
 
     virtualContentEl.innerHTML = !isCorrectedTextShowing
       ? correctText
-      : correctionText;
-    console.log(correctionText);
+      : correctionHTML;
+    console.log(correctionHTML);
     isCorrectedTextShowing = !isCorrectedTextShowing;
+    console.log({ isCorrectedTextShowing });
   });
 
   clipboardCopy.addEventListener("click", function () {
